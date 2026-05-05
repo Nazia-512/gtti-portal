@@ -1,0 +1,96 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          Role      @default(STUDENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  student       Student?
+  sessions      Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Student {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  rollNumber     String   @unique
+  department     String
+  batch          String
+  gpa            Float?
+  skills         String   // JSON array stored as string
+  achievements   String   // JSON array
+  profileImage   String?
+  qrCode         String?
+  isShinningStar Boolean  @default(false)
+  starReason     String?
+  bio            String?
+  linkedIn       String?
+  github         String?
+  phone          String?
+  cvData         String?  // JSON
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model Job {
+  id           String   @id @default(cuid())
+  title        String
+  company      String
+  location     String
+  type         JobType
+  description  String
+  requirements String   // JSON array
+  salary       String?
+  deadline     DateTime?
+  isActive     Boolean  @default(true)
+  postedBy     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  priority  Priority @default(NORMAL)
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+  PLACEMENT_OFFICER
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  INTERNSHIP
+  CONTRACT
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
