@@ -5,6 +5,35 @@ import { Cpu, Eye, EyeOff, LogIn, ArrowLeft } from 'lucide-react'
 
 export default function LoginPage() {
   const [show, setShow] = useState(false)
+  const [loading, setLoading] = useState(false)
+const [error, setError] = useState('')
+
+const handleLogin = async () => {
+  setLoading(true)
+  setError('')
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: form.email, password: form.password })
+    })
+    const data = await res.json()
+    if (data.error) {
+      setError(data.error)
+    } else {
+      // Role ke hisaab se redirect karo
+      if (data.role === 'ADMIN') {
+        window.location.href = '/admin'
+      } else {
+        window.location.href = '/student'
+      }
+    }
+  } catch {
+    setError('Kuch ghalat hua — dobara try karo!')
+  } finally {
+    setLoading(false)
+  }
+}
   const [form, setForm] = useState({ email: '', password: '', remember: false })
 
   return (
@@ -65,10 +94,15 @@ export default function LoginPage() {
                 Forgot password?
               </Link>
             </div>
-
-            <button className="w-full btn-primary justify-center py-3 mt-2">
-              <LogIn size={16} /> Sign In
-            </button>
+                {error && (
+                  <div className="text-red-400 text-xs text-center p-2 rounded-lg bg-red-400/10">
+                    {error}
+                  </div>
+                )}
+                            <button onClick={handleLogin} disabled={loading}
+                  className="w-full btn-primary justify-center py-3 mt-2 disabled:opacity-50">
+                  {loading ? 'Signing in...' : <><LogIn size={16} /> Sign In</>}
+                </button>
           </div>
 
           <div className="mt-6 pt-6 text-center border-t" style={{ borderColor: 'var(--border)' }}>

@@ -1,30 +1,11 @@
-'use client'
 import Link from 'next/link'
+import { PrismaClient } from '@prisma/client'
 import {
   LayoutDashboard, Users, Briefcase, Star, Bell, TrendingUp, ArrowLeft,
   UserCheck, AlertCircle, PlusCircle, Settings, BarChart3, Award
 } from 'lucide-react'
 
-const STATS = [
-  { label: 'Total Students', value: '487', change: '+12 this month', icon: Users, color: 'cyan' },
-  { label: 'Active Jobs', value: '24', change: '+3 this week', icon: Briefcase, color: 'green' },
-  { label: 'Shining Stars', value: '52', change: '+5 this term', icon: Star, color: 'gold' },
-  { label: 'Placements', value: '156', change: '32% rate', icon: TrendingUp, color: 'purple' },
-]
-
-const RECENT_STUDENTS = [
-  { name: 'Muhammad Ahmed', dept: 'Computer Technology', status: 'active',  gpa: 3.9 },
-  { name: 'Fatima Zara',    dept: 'Electronics',         status: 'active',  gpa: 3.8 },
-  { name: 'Ali Hassan',     dept: 'Electrical',          status: 'placed',  gpa: 3.7 },
-  { name: 'Ayesha Noor',    dept: 'Civil Technology',    status: 'active',  gpa: 3.95 },
-  { name: 'Usman Tariq',    dept: 'Electrical',          status: 'placed',  gpa: 3.8 },
-]
-
-const ANNOUNCEMENTS = [
-  { title: 'Final Exam Schedule Released', priority: 'HIGH',   time: '2 hours ago' },
-  { title: 'Job Fair on March 15th',       priority: 'URGENT', time: '1 day ago'   },
-  { title: 'New Scholarship Applications Open', priority: 'NORMAL', time: '3 days ago' },
-]
+const prisma = new PrismaClient()
 
 const colorMap: Record<string, string> = {
   cyan:   'text-cyan-400 bg-cyan-400/10 border-cyan-400/20',
@@ -44,7 +25,27 @@ const statusColor: Record<string, string> = {
   placed: 'badge-green',
 }
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  // Real data from database
+  const [totalStudents, activeJobs, shiningStars, announcements, recentStudents] = await Promise.all([
+    prisma.student.count(),
+    prisma.job.count({ where: { isActive: true } }),
+    prisma.student.count({ where: { isShinningStar: true } }),
+    prisma.announcement.findMany({ orderBy: { createdAt: 'desc' }, take: 3 }),
+    prisma.student.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      include: { user: true }
+    })
+  ])
+
+  const STATS = [
+    { label: 'Total Students', value: totalStudents.toString(), change: 'Registered students', icon: Users, color: 'cyan' },
+    { label: 'Active Jobs', value: activeJobs.toString(), change: 'Open positions', icon: Briefcase, color: 'green' },
+    { label: 'Shining Stars', value: shiningStars.toString(), change: 'Top performers', icon: Star, color: 'gold' },
+    { label: 'Placements', value: '0', change: '0% rate', icon: TrendingUp, color: 'purple' },
+  ]
+
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       <div className="max-w-7xl mx-auto px-6 py-10">
@@ -65,8 +66,12 @@ export default function AdminDashboard() {
             </div>
           </div>
           <div className="flex gap-3">
-            <button className="btn-outline text-sm"><Bell size={15} /> Announcements</button>
-            <button className="btn-primary text-sm"><PlusCircle size={15} /> Post Job</button>
+            <Link href="/admin/announcements" className="btn-outline text-sm flex items-center gap-2">
+              <Bell size={15} /> Announcements
+            </Link>
+            <Link href="/admin/jobs/new" className="btn-primary text-sm flex items-center gap-2">
+              <PlusCircle size={15} /> Post Job
+            </Link>
           </div>
         </div>
 
@@ -98,22 +103,30 @@ export default function AdminDashboard() {
               </Link>
             </div>
             <div className="space-y-3">
-              {RECENT_STUDENTS.map((s, i) => (
-                <div key={i} className="flex items-center gap-4 py-3 border-b last:border-0"
-                     style={{ borderColor: 'var(--border)' }}>
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-600/10 border border-cyan-400/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-bold text-cyan-400">{s.name.split(' ').map(n=>n[0]).join('')}</span>
+              {recentStudents.length === 0 ? (
+                <p className="text-center py-8" style={{ color: 'var(--text-muted)' }}>
+                  Abhi koi student registered nahi hai
+                </p>
+              ) : (
+                recentStudents.map((s, i) => (
+                  <div key={i} className="flex items-center gap-4 py-3 border-b last:border-0"
+                       style={{ borderColor: 'var(--border)' }}>
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-600/10 border border-cyan-400/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-xs font-bold text-cyan-400">
+                        {s.user.name.split(' ').map((n: string) => n[0]).join('')}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm text-white truncate">{s.user.name}</p>
+                      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.department}</p>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <span className={`badge ${statusColor['active']} mb-1`}>active</span>
+                      <p className="text-xs font-mono text-yellow-400">{s.gpa || 0} GPA</p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm text-white truncate">{s.name}</p>
-                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.dept}</p>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <span className={`badge ${statusColor[s.status]} mb-1`}>{s.status}</span>
-                    <p className="text-xs font-mono text-yellow-400">{s.gpa} GPA</p>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
 
@@ -125,18 +138,28 @@ export default function AdminDashboard() {
                 <h2 className="font-semibold text-white flex items-center gap-2">
                   <Bell size={18} className="text-yellow-400" /> Announcements
                 </h2>
-                <button className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">+ Add</button>
+                <Link href="/admin/announcements/new" className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
+                  + Add
+                </Link>
               </div>
               <div className="space-y-3">
-                {ANNOUNCEMENTS.map((a, i) => (
-                  <div key={i} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={`badge ${priorityColor[a.priority]}`}>{a.priority}</span>
+                {announcements.length === 0 ? (
+                  <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>
+                    Koi announcement nahi hai
+                  </p>
+                ) : (
+                  announcements.map((a, i) => (
+                    <div key={i} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`badge ${priorityColor[a.priority]}`}>{a.priority}</span>
+                      </div>
+                      <p className="text-sm text-white font-medium leading-tight">{a.title}</p>
+                      <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                        {new Date(a.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
-                    <p className="text-sm text-white font-medium leading-tight">{a.title}</p>
-                    <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{a.time}</p>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
 
@@ -147,18 +170,18 @@ export default function AdminDashboard() {
               </h2>
               <div className="space-y-2">
                 {[
-                  { icon: UserCheck, label: 'Approve Students',      color: 'text-cyan-400'  },
-                  { icon: Star,       label: 'Assign Shining Stars',  color: 'text-yellow-400' },
-                  { icon: Award,      label: 'Manage Certificates',   color: 'text-green-400' },
-                  { icon: BarChart3,  label: 'View Analytics',        color: 'text-purple-400' },
-                  { icon: AlertCircle,label: 'Pending Applications',  color: 'text-red-400'   },
+                  { icon: UserCheck,  label: 'Manage Students',     color: 'text-cyan-400',   href: '/admin/students'      },
+                  { icon: Star,       label: 'Shining Stars',       color: 'text-yellow-400', href: '/admin/shining-stars' },
+                  { icon: Briefcase,  label: 'Manage Jobs',         color: 'text-green-400',  href: '/admin/jobs'          },
+                  { icon: Bell,       label: 'Announcements',       color: 'text-orange-400', href: '/admin/announcements' },
+                  { icon: AlertCircle,label: 'Pending Approvals',   color: 'text-red-400',    href: '/admin/approvals'     },
                 ].map(action => (
-                  <button key={action.label}
+                  <Link key={action.label} href={action.href}
                     className="w-full flex items-center gap-3 p-3 rounded-xl text-sm font-medium text-left transition-all hover:bg-white/5"
                     style={{ color: 'var(--text-secondary)' }}>
                     <action.icon size={16} className={action.color} />
                     {action.label}
-                  </button>
+                  </Link>
                 ))}
               </div>
             </div>

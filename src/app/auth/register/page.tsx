@@ -11,6 +11,36 @@ export default function RegisterPage() {
   const [form, setForm] = useState({
     name: '', email: '', password: '', rollNumber: '', department: '', batch: '', phone: ''
   })
+  const [loading, setLoading] = useState(false)
+const [error, setError] = useState('')
+const [success, setSuccess] = useState('')
+
+const handleRegister = async () => {
+  if (!form.name || !form.email || !form.password || !form.rollNumber || !form.department || !form.batch) {
+    setError('Sab required fields fill karo!')
+    return
+  }
+  setLoading(true)
+  setError('')
+  try {
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form)
+    })
+    const data = await res.json()
+    if (data.error) {
+      setError(data.error)
+    } else {
+      setSuccess('Account ban gaya! Login page pe ja rahe hain...')
+      setTimeout(() => window.location.href = '/auth/login', 2000)
+    }
+  } catch {
+    setError('Kuch ghalat hua — dobara try karo!')
+  } finally {
+    setLoading(false)
+  }
+}
 
   const update = (field: string, value: string) => setForm(p => ({ ...p, [field]: value }))
 
@@ -93,9 +123,20 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <button className="w-full btn-gold justify-center py-3 mt-2">
-              <UserPlus size={16} /> Create My Account
-            </button>
+            {error && (
+                <div className="text-red-400 text-xs text-center p-2 rounded-lg bg-red-400/10">
+                  {error}
+                </div>
+              )}
+              {success && (
+                <div className="text-green-400 text-xs text-center p-2 rounded-lg bg-green-400/10">
+                  {success}
+                </div>
+              )}
+              <button onClick={handleRegister} disabled={loading}
+                className="w-full btn-gold justify-center py-3 mt-2 disabled:opacity-50">
+                {loading ? 'Creating...' : <><UserPlus size={16} /> Create My Account</>}
+              </button>
           </div>
 
           <div className="mt-6 pt-6 text-center border-t" style={{ borderColor: 'var(--border)' }}>

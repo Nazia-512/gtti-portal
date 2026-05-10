@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -93,4 +93,18 @@ enum Priority {
   NORMAL
   HIGH
   URGENT
+}
+model ShinningStar {
+  id          String   @id @default(cuid())
+  name        String
+  photo       String?
+  department  String
+  batch       String
+  position    String?
+  company     String?
+  story       String?
+  skills      String
+  rollNumber  String?
+  gpa         Float?
+  createdAt   DateTime @default(now())
 }

@@ -1,0 +1,16 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+
+export async function POST(req: NextRequest) {
+  try {
+    const { title, content, priority } = await req.json()
+    const announcement = await prisma.announcement.create({
+      data: { title, content, priority: priority as 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT' }
+    })
+    return NextResponse.json({ success: true, announcement })
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 })
+  }
+}
