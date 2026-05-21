@@ -2,9 +2,10 @@ import Link from 'next/link'
 import { PrismaClient } from '@prisma/client'
 import {
   LayoutDashboard, Users, Briefcase, Star, Bell, TrendingUp, ArrowLeft,
-  UserCheck, AlertCircle, PlusCircle, Settings, BarChart3, Award
+  UserCheck, AlertCircle, PlusCircle, Settings
 } from 'lucide-react'
 
+// Prisma instance create karna zaroori hai agar global declare nahi hai
 const prisma = new PrismaClient()
 
 const colorMap: Record<string, string> = {
@@ -46,6 +47,14 @@ export default async function AdminDashboard() {
     { label: 'Placements', value: '0', change: '0% rate', icon: TrendingUp, color: 'purple' },
   ]
 
+  const QUICK_ACTIONS = [
+    { icon: UserCheck,  label: 'Manage Students',     color: 'text-cyan-400',   href: '/admin/students'      },
+    { icon: Star,       label: 'Shining Stars',       color: 'text-yellow-400', href: '/admin/shining-stars' },
+    { icon: Briefcase,  label: 'Manage Jobs',         color: 'text-green-400',  href: '/admin/jobs'          },
+    { icon: Bell,       label: 'Announcements',       color: 'text-orange-400', href: '/admin/announcements' },
+    { icon: AlertCircle,label: 'Pending Approvals',   color: 'text-red-400',    href: '/admin/approvals'     },
+  ]
+
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       <div className="max-w-7xl mx-auto px-6 py-10">
@@ -75,7 +84,7 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {STATS.map(s => (
             <div key={s.label} className={`glass-card rounded-2xl p-5 border ${colorMap[s.color]}`}>
@@ -92,7 +101,7 @@ export default async function AdminDashboard() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Recent Students */}
+          {/* Recent Students List */}
           <div className="lg:col-span-2 glass-card rounded-2xl p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="font-semibold text-white flex items-center gap-2">
@@ -113,11 +122,11 @@ export default async function AdminDashboard() {
                        style={{ borderColor: 'var(--border)' }}>
                     <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-600/10 border border-cyan-400/20 flex items-center justify-center flex-shrink-0">
                       <span className="text-xs font-bold text-cyan-400">
-                        {s.user.name.split(' ').map((n: string) => n[0]).join('')}
+                        {s.user?.name ? s.user.name.split(' ').map((n: string) => n[0]).join('') : 'ST'}
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm text-white truncate">{s.user.name}</p>
+                      <p className="font-medium text-sm text-white truncate">{s.user?.name || "No Name"}</p>
                       <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.department}</p>
                     </div>
                     <div className="text-right flex-shrink-0">
@@ -130,7 +139,7 @@ export default async function AdminDashboard() {
             </div>
           </div>
 
-          {/* Right Column */}
+          {/* Right Column (Announcements & Quick Actions) */}
           <div className="space-y-6">
             {/* Announcements */}
             <div className="glass-card rounded-2xl p-6">
@@ -151,7 +160,7 @@ export default async function AdminDashboard() {
                   announcements.map((a, i) => (
                     <div key={i} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)' }}>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`badge ${priorityColor[a.priority]}`}>{a.priority}</span>
+                        <span className={`badge ${priorityColor[a.priority] || 'badge-cyan'}`}>{a.priority}</span>
                       </div>
                       <p className="text-sm text-white font-medium leading-tight">{a.title}</p>
                       <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
@@ -169,16 +178,10 @@ export default async function AdminDashboard() {
                 <Settings size={18} className="text-red-400" /> Quick Actions
               </h2>
               <div className="space-y-2">
-                {[
-                  { icon: UserCheck,  label: 'Manage Students',     color: 'text-cyan-400',   href: '/admin/students'      },
-                  { icon: Star,       label: 'Shining Stars',       color: 'text-yellow-400', href: '/admin/shining-stars' },
-                  { icon: Briefcase,  label: 'Manage Jobs',         color: 'text-green-400',  href: '/admin/jobs'          },
-                  { icon: Bell,       label: 'Announcements',       color: 'text-orange-400', href: '/admin/announcements' },
-                  { icon: AlertCircle,label: 'Pending Approvals',   color: 'text-red-400',    href: '/admin/approvals'     },
-                ].map(action => (
+                {QUICK_ACTIONS.map(action => (
                   <Link key={action.label} href={action.href}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl text-sm font-medium text-left transition-all hover:bg-white/5"
-                    style={{ color: 'var(--text-secondary)' }}>
+                        className="w-full flex items-center gap-3 p-3 rounded-xl text-sm font-medium text-left transition-all hover:bg-white/5"
+                        style={{ color: 'var(--text-secondary)' }}>
                     <action.icon size={16} className={action.color} />
                     {action.label}
                   </Link>
@@ -186,6 +189,7 @@ export default async function AdminDashboard() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

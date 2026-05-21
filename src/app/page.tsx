@@ -202,9 +202,9 @@ export default function HomePage() {
       <section className="relative z-10 min-h-screen flex items-center justify-center pt-20 px-6">
         {/* Glow orbs */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-10"
-             style={{ background: 'radial-gradient(circle, #22d3ee, transparent)' }} />
+            style={{ background: 'radial-gradient(circle, #bfdbfe, transparent)' }}/>
         <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full blur-3xl opacity-8"
-             style={{ background: 'radial-gradient(circle, #fbbf24, transparent)' }} />
+             style={{ background: 'radial-gradient(circle, #f5f7ec, transparent)' }} />
 
         <div className="max-w-4xl mx-auto text-center">
           {/* Institute badge */}
@@ -219,7 +219,7 @@ export default function HomePage() {
           {/* Headline */}
           <h1 className="font-display font-bold leading-tight mb-6"
               style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>
-            <span className="text-white">Empowering</span>{' '}
+           <span style={{ color: '#0f172a' }}>Empowering</span>
             <span className="gold-text">Future</span>
             <br />
             <span className="cyan-text">Tech Leaders</span>
