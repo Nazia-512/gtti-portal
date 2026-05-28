@@ -1,13 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 
-const prisma = new PrismaClient()
+// GET — ticker ke liye announcements fetch karo
+export async function GET() {
+  try {
+    const announcements = await prisma.announcement.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+    })
+    return NextResponse.json(announcements)
+  } catch (error) {
+    return NextResponse.json([], { status: 200 })
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
     const { title, content, priority } = await req.json()
     const announcement = await prisma.announcement.create({
-      data: { title, content, priority: priority as 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT' }
+      data: {
+        title,
+        content,
+        priority: priority as 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT',
+      }
     })
     return NextResponse.json({ success: true, announcement })
   } catch (error) {
