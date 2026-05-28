@@ -294,7 +294,7 @@ lines.forEach((line: string) => {
                   { f: 'linkedin', p: 'LinkedIn URL',   t: 'url'   },
                   { f: 'github',   p: 'GitHub URL',     t: 'url'   },
                 ].map(({ f, p, t }) => (
-                  <input key={f} type={t} placeholder={p} value={(cv as unknown as Record<string, string>)[f]}
+                  <input key={f} type={t} placeholder={p} value={cv[f as keyof typeof EMPTY_CV] as string || ''}
                     onChange={e => updateField(f as keyof CVData, e.target.value)}
                     className="input-field" />
                 ))}
