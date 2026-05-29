@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-// GET — ticker ke liye announcements fetch karo
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const announcements = await prisma.announcement.findMany({
@@ -9,7 +10,7 @@ export async function GET() {
       take: 10,
     })
     return NextResponse.json(announcements)
-  } catch (error) {
+  } catch {
     return NextResponse.json([], { status: 200 })
   }
 }
