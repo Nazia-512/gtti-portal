@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { PrismaClient } from '@prisma/client'
 import { Star, Award, GraduationCap, ArrowLeft } from 'lucide-react'
 
+export const dynamic = "force-dynamic";
+
 const prisma = new PrismaClient()
 
 export default async function ShiningStarsPage() {

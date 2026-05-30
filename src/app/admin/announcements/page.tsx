@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { PrismaClient } from '@prisma/client'
 import { Bell, Plus, ArrowLeft } from 'lucide-react'
 
+export const dynamic = "force-dynamic";
+
 const prisma = new PrismaClient()
 
 const priorityColor: Record<string, string> = {

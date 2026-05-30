@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { PrismaClient } from '@prisma/client'
 import { Briefcase, MapPin, DollarSign, ArrowLeft, Calendar, Clock } from 'lucide-react'
 
+export const dynamic = "force-dynamic";
+
 const prisma = new PrismaClient()
 
 const TYPE_COLORS: Record<string, string> = {

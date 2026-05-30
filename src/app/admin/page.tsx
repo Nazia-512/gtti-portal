@@ -5,6 +5,8 @@ import {
   UserCheck, AlertCircle, PlusCircle, Settings, Image as ImageIcon
 } from 'lucide-react'
 
+export const dynamic = "force-dynamic";
+
 const colorMap: Record<string, string> = {
   cyan:   'text-cyan-400 bg-cyan-400/10 border-cyan-400/20',
   green:  'text-green-400 bg-green-400/10 border-green-400/20',
