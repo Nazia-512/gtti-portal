@@ -1,137 +1,120 @@
 import Link from 'next/link'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import {
-  LayoutDashboard, Users, Briefcase, Star, Bell, TrendingUp, ArrowLeft,
-  UserCheck, AlertCircle, PlusCircle, Settings
+  LayoutDashboard, Users, Briefcase, Star, Bell, ArrowLeft, PlusCircle
 } from 'lucide-react'
+import LogoutButton from './LogoutButton'
 
-// Prisma instance create karna zaroori hai agar global declare nahi hai
-const prisma = new PrismaClient()
+export const dynamic = "force-dynamic";
 
+// Icon chip colors per stat
 const colorMap: Record<string, string> = {
-  cyan:   'text-cyan-400 bg-cyan-400/10 border-cyan-400/20',
-  green:  'text-green-400 bg-green-400/10 border-green-400/20',
-  gold:   'text-yellow-400 bg-yellow-400/10 border-yellow-400/20',
-  purple: 'text-purple-400 bg-purple-400/10 border-purple-400/20',
+  cyan:  'text-cyan-500 bg-cyan-500/10 border-cyan-500/20',
+  green: 'text-green-500 bg-green-500/10 border-green-500/20',
+  gold:  'text-yellow-500 bg-yellow-500/10 border-yellow-500/20',
 }
 
 const priorityColor: Record<string, string> = {
   URGENT: 'badge-red',
   HIGH:   'badge-gold',
   NORMAL: 'badge-cyan',
-}
-
-const statusColor: Record<string, string> = {
-  active: 'badge-cyan',
-  placed: 'badge-green',
+  LOW:    'badge-green',
 }
 
 export default async function AdminDashboard() {
-  // Real data from database
   const [totalStudents, activeJobs, shiningStars, announcements, recentStudents] = await Promise.all([
     prisma.student.count(),
     prisma.job.count({ where: { isActive: true } }),
-    prisma.student.count({ where: { isShinningStar: true } }),
+    prisma.shinningStar.count(),
     prisma.announcement.findMany({ orderBy: { createdAt: 'desc' }, take: 3 }),
-    prisma.student.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      include: { user: true }
-    })
+    prisma.student.findMany({ take: 5, orderBy: { createdAt: 'desc' }, include: { user: true } }),
   ])
 
   const STATS = [
-    { label: 'Total Students', value: totalStudents.toString(), change: 'Registered students', icon: Users, color: 'cyan' },
-    { label: 'Active Jobs', value: activeJobs.toString(), change: 'Open positions', icon: Briefcase, color: 'green' },
-    { label: 'Shining Stars', value: shiningStars.toString(), change: 'Top performers', icon: Star, color: 'gold' },
-    { label: 'Placements', value: '0', change: '0% rate', icon: TrendingUp, color: 'purple' },
+    { label: 'Total Students', value: totalStudents.toString(), change: 'Registered students', icon: Users,     color: 'cyan'  },
+    { label: 'Active Jobs',    value: activeJobs.toString(),    change: 'Open positions',      icon: Briefcase, color: 'green' },
+    { label: 'Shining Stars',  value: shiningStars.toString(),  change: 'Top performers',      icon: Star,      color: 'gold'  },
   ]
 
-  const QUICK_ACTIONS = [
-    { icon: UserCheck,  label: 'Manage Students',     color: 'text-cyan-400',   href: '/admin/students'      },
-    { icon: Star,       label: 'Shining Stars',       color: 'text-yellow-400', href: '/admin/shining-stars' },
-    { icon: Briefcase,  label: 'Manage Jobs',         color: 'text-green-400',  href: '/admin/jobs'          },
-    { icon: Bell,       label: 'Announcements',       color: 'text-orange-400', href: '/admin/announcements' },
-    { icon: AlertCircle,label: 'Pending Approvals',   color: 'text-red-400',    href: '/admin/approvals'     },
-  ]
+  // Cohesive card base — saare cards consistent dikhein
+  const cardBase = 'rounded-2xl bg-white border shadow-sm'
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <Link href="/" className="inline-flex items-center gap-2 text-sm mb-8 hover:text-cyan-400 transition-colors"
-              style={{ color: 'var(--text-secondary)' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+        <Link href="/" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-cyan-500 transition-colors" style={{ color: 'var(--text-secondary)' }}>
           <ArrowLeft size={16} /> Back to Portal
         </Link>
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-10 flex-wrap gap-4">
+        <div className="flex items-center justify-between gap-4 flex-wrap pb-6 mb-8 border-b" style={{ borderColor: 'var(--border)' }}>
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-400/20 to-rose-600/20 border border-red-400/30 flex items-center justify-center">
-              <LayoutDashboard size={24} className="text-red-400" />
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-400/20 to-rose-600/20 border border-red-400/30 flex items-center justify-center flex-shrink-0">
+              <LayoutDashboard size={24} className="text-red-500" />
             </div>
             <div>
-              <h1 className="font-display font-bold text-3xl text-white">Admin Dashboard</h1>
-              <p style={{ color: 'var(--text-secondary)' }} className="text-sm">GTTI D.G. Khan — Placement Office</p>
+              <h1 className="font-display font-bold text-2xl sm:text-3xl text-slate-900">Admin Dashboard</h1>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>GTTI D.G. Khan — Placement Office</p>
             </div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <Link href="/admin/announcements" className="btn-outline text-sm flex items-center gap-2">
               <Bell size={15} /> Announcements
             </Link>
             <Link href="/admin/jobs/new" className="btn-primary text-sm flex items-center gap-2">
               <PlusCircle size={15} /> Post Job
             </Link>
+            <LogoutButton />
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {STATS.map(s => (
-            <div key={s.label} className={`glass-card rounded-2xl p-5 border ${colorMap[s.color]}`}>
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</p>
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${colorMap[s.color]}`}>
-                  <s.icon size={18} />
+        {/* Stats — 3 cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          {STATS.map((s) => (
+            <div
+              key={s.label}
+              className={`${cardBase} p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md`}
+              style={{ borderColor: 'var(--border)' }}
+            >
+              <div className="flex items-start justify-between">
+                <p className="text-xs font-medium mt-1" style={{ color: 'var(--text-muted)' }}>{s.label}</p>
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center border ${colorMap[s.color]}`}>
+                  <s.icon size={20} />
                 </div>
               </div>
-              <p className="font-display font-bold text-3xl text-white mb-1">{s.value}</p>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.change}</p>
+              <p className="font-display font-bold text-3xl mt-3 text-slate-900">{s.value}</p>
+              <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{s.change}</p>
             </div>
           ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Recent Students List */}
-          <div className="lg:col-span-2 glass-card rounded-2xl p-6">
+          {/* Recent Students */}
+          <div className={`lg:col-span-2 ${cardBase} p-6`} style={{ borderColor: 'var(--border)' }}>
             <div className="flex items-center justify-between mb-5">
-              <h2 className="font-semibold text-white flex items-center gap-2">
-                <Users size={18} className="text-cyan-400" /> Recent Students
+              <h2 className="font-semibold text-slate-900 flex items-center gap-2">
+                <Users size={18} className="text-cyan-500" /> Recent Students
               </h2>
-              <Link href="/admin/students" className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
-                View All →
-              </Link>
+              <Link href="/admin/students" className="text-xs font-medium text-cyan-500 hover:text-cyan-600 transition-colors">View All →</Link>
             </div>
-            <div className="space-y-3">
+            <div>
               {recentStudents.length === 0 ? (
-                <p className="text-center py-8" style={{ color: 'var(--text-muted)' }}>
-                  Abhi koi student registered nahi hai
-                </p>
+                <p className="text-center py-8" style={{ color: 'var(--text-muted)' }}>Abhi koi student registered nahi hai</p>
               ) : (
                 recentStudents.map((s, i) => (
-                  <div key={i} className="flex items-center gap-4 py-3 border-b last:border-0"
-                       style={{ borderColor: 'var(--border)' }}>
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-600/10 border border-cyan-400/20 flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs font-bold text-cyan-400">
-                        {s.user?.name ? s.user.name.split(' ').map((n: string) => n[0]).join('') : 'ST'}
+                  <div key={i} className="flex items-center gap-4 py-3 border-b last:border-0 last:pb-0" style={{ borderColor: 'var(--border)' }}>
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400/10 to-blue-600/10 border border-cyan-400/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-xs font-bold text-cyan-500">
+                        {s.user.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm text-white truncate">{s.user?.name || "No Name"}</p>
-                      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.department}</p>
+                      <p className="font-medium text-sm text-slate-900 truncate">{s.user.name}</p>
+                      <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>{s.department}</p>
                     </div>
-                    <div className="text-right flex-shrink-0">
-                      <span className={`badge ${statusColor['active']} mb-1`}>active</span>
-                      <p className="text-xs font-mono text-yellow-400">{s.gpa || 0} GPA</p>
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                      <span className="badge badge-green">Active</span>
+                      <span className="text-xs font-mono text-yellow-500 w-16 text-right">{s.gpa ?? 0} GPA</span>
                     </div>
                   </div>
                 ))
@@ -139,57 +122,32 @@ export default async function AdminDashboard() {
             </div>
           </div>
 
-          {/* Right Column (Announcements & Quick Actions) */}
-          <div className="space-y-6">
-            {/* Announcements */}
-            <div className="glass-card rounded-2xl p-6">
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="font-semibold text-white flex items-center gap-2">
-                  <Bell size={18} className="text-yellow-400" /> Announcements
-                </h2>
-                <Link href="/admin/announcements/new" className="text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
-                  + Add
-                </Link>
-              </div>
-              <div className="space-y-3">
-                {announcements.length === 0 ? (
-                  <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>
-                    Koi announcement nahi hai
-                  </p>
-                ) : (
-                  announcements.map((a, i) => (
-                    <div key={i} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className={`badge ${priorityColor[a.priority] || 'badge-cyan'}`}>{a.priority}</span>
-                      </div>
-                      <p className="text-sm text-white font-medium leading-tight">{a.title}</p>
-                      <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-                        {new Date(a.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="glass-card rounded-2xl p-6">
-              <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
-                <Settings size={18} className="text-red-400" /> Quick Actions
+          {/* Announcements */}
+          <div className={`${cardBase} p-6`} style={{ borderColor: 'var(--border)' }}>
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="font-semibold text-slate-900 flex items-center gap-2">
+                <Bell size={18} className="text-yellow-500" /> Announcements
               </h2>
-              <div className="space-y-2">
-                {QUICK_ACTIONS.map(action => (
-                  <Link key={action.label} href={action.href}
-                        className="w-full flex items-center gap-3 p-3 rounded-xl text-sm font-medium text-left transition-all hover:bg-white/5"
-                        style={{ color: 'var(--text-secondary)' }}>
-                    <action.icon size={16} className={action.color} />
-                    {action.label}
-                  </Link>
-                ))}
-              </div>
+              <Link href="/admin/announcements/new" className="text-xs font-medium text-cyan-500 hover:text-cyan-600 transition-colors">+ Add</Link>
+            </div>
+            <div className="space-y-3">
+              {announcements.length === 0 ? (
+                <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>Koi announcement nahi hai</p>
+              ) : (
+                announcements.map((a, i) => (
+                  <div key={i} className="rounded-xl border p-3" style={{ borderColor: 'var(--border)' }}>
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span className={`badge ${priorityColor[a.priority] ?? 'badge-cyan'}`}>{a.priority}</span>
+                      <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                        {new Date(a.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-900 font-medium leading-snug">{a.title}</p>
+                  </div>
+                ))
+              )}
             </div>
           </div>
-
         </div>
       </div>
     </div>

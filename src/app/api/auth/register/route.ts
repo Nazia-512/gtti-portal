@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
@@ -23,13 +24,14 @@ export async function POST(req: NextRequest) {
     // Password hash karo
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // User aur Student ek saath banao
-    const user = await prisma.user.create({
+    // User aur Student ek saath banao — naya account PENDING (admin approval ke liye)
+    await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
         role: 'STUDENT',
+        approved: false,
         student: {
           create: {
             rollNumber,
@@ -43,7 +45,10 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    return NextResponse.json({ success: true, message: 'Account ban gaya! Ab login karo.' })
+    return NextResponse.json({
+      success: true,
+      message: "Your registration is submitted and pending admin approval. You'll be able to log in once approved.",
+    })
 
   } catch (error) {
     return NextResponse.json({ error: String(error) }, { status: 500 })

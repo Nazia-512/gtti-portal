@@ -49,7 +49,7 @@ export default function NewAnnouncementPage() {
             <Bell size={24} className="text-yellow-400" />
           </div>
           <div>
-            <h1 className="font-display font-bold text-3xl text-white">New Announcement</h1>
+            <h1 className="font-display font-bold text-3xl text-slate-900">New Announcement</h1>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">Post announcement for students</p>
           </div>
         </div>

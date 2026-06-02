@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
@@ -21,6 +22,15 @@ export async function POST(req: NextRequest) {
     const isValid = await bcrypt.compare(password, user.password)
     if (!isValid) {
       return NextResponse.json({ error: 'Email ya password galat hai!' }, { status: 401 })
+    }
+
+    // Approval gate: students jo abhi tak approved nahi (approved === false) login na kar saken.
+    // Admins (aur legacy users jinka approved null hai) normal login karte hain.
+    if (user.role === 'STUDENT' && user.approved === false) {
+      return NextResponse.json(
+        { error: 'Your account is pending admin approval.' },
+        { status: 403 }
+      )
     }
 
     // Session banao

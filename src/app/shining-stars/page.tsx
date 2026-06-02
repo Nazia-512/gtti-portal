@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { PrismaClient } from '@prisma/client'
 import { Star, Award, GraduationCap, ArrowLeft } from 'lucide-react'
 
+export const dynamic = "force-dynamic";
+
 const prisma = new PrismaClient()
 
 export default async function ShiningStarsPage() {
@@ -23,7 +25,7 @@ export default async function ShiningStarsPage() {
                style={{ background: 'linear-gradient(135deg, rgba(251,191,36,0.2), rgba(245,158,11,0.1))', border: '1px solid rgba(251,191,36,0.3)' }}>
             <Star size={28} className="text-yellow-400 fill-yellow-400/30" />
           </div>
-          <h1 className="font-display font-bold text-4xl text-white mb-3">
+          <h1 className="font-display font-bold text-4xl text-slate-900 mb-3">
             Shining <span className="gold-text">Stars</span>
           </h1>
           <p className="text-lg max-w-xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
@@ -66,7 +68,7 @@ export default async function ShiningStarsPage() {
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-white text-sm leading-tight truncate">{star.name}</h3>
+                        <h3 className="font-semibold text-slate-900 text-sm leading-tight truncate">{star.name}</h3>
                         {star.rollNumber && (
                           <p className="text-xs mt-0.5 font-mono" style={{ color: 'var(--cyan)' }}>{star.rollNumber}</p>
                         )}

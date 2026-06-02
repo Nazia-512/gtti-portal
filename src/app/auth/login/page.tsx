@@ -56,7 +56,7 @@ const handleLogin = async () => {
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-700 flex items-center justify-center mx-auto mb-4">
               <Cpu size={28} className="text-white" />
             </div>
-            <h1 className="font-display font-bold text-2xl text-white">Welcome Back</h1>
+            <h1 className="font-display font-bold text-2xl text-slate-900">Welcome Back</h1>
             <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Sign in to GTTI Smart Portal</p>
           </div>
 
