@@ -102,7 +102,7 @@ export default function CareerTestsView({ rows }: { rows: CareerTestRow[] }) {
           <div>
             <h1 className="font-display font-bold text-3xl text-slate-900">Career Test Reports</h1>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              Students ke Career Pathway test results aur summary
+              Career Pathway test results and summary for students
             </p>
           </div>
         </div>
@@ -177,7 +177,7 @@ export default function CareerTestsView({ rows }: { rows: CareerTestRow[] }) {
           {filtered.length === 0 ? (
             <div className="text-center py-16">
               <ClipboardList size={48} className="mx-auto mb-4 opacity-20 text-purple-500" />
-              <p style={{ color: 'var(--text-muted)' }}>Koi career test record nahi mila.</p>
+              <p style={{ color: 'var(--text-muted)' }}>No career test records found.</p>
             </div>
           ) : (
             <table className="w-full text-sm">

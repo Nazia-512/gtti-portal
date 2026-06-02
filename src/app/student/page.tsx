@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
-import { FileText, MessageSquare, BookOpen, ArrowRight, GraduationCap } from 'lucide-react'
+import { FileText, MessageSquare, BookOpen, Sparkles, ArrowRight, GraduationCap } from 'lucide-react'
 import LogoutButton from '@/app/admin/LogoutButton'
 
 // Prisma + cookies use ho rahe hain, isliye static render mat karo
@@ -66,10 +66,10 @@ export default async function StudentLandingPage() {
         {/* Welcome header */}
         <div className="mb-10">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-            {firstName ? `Khush Aamdeed, ${firstName}!` : 'Khush Aamdeed!'}
+            {firstName ? `Welcome, ${firstName}!` : 'Welcome!'}
           </h1>
           <p className="mt-2 max-w-xl text-sm text-gray-600 sm:text-base">
-            Apne career ki pehchaan ki taraf pehla qadam yahan se shuru hota hai.
+            Take the first step toward discovering your career path here.
           </p>
         </div>
 
@@ -96,10 +96,10 @@ export default async function StudentLandingPage() {
               </div>
               <div className="flex-1">
                 <h2 className="text-lg font-semibold text-gray-900">
-                  Aap apna Career Pathway Test de chuke hain
+                  You have completed your Career Pathway Test
                 </h2>
                 <p className="mt-1 text-sm text-gray-600">
-                  Aapka result mehfooz ho chuka hai. Niche button se apna natija dekhein.
+                  Your result has been saved. View your result using the button below.
                 </p>
               </div>
               <Link
@@ -135,8 +135,8 @@ export default async function StudentLandingPage() {
                   Career Pathway Personality Test
                 </h2>
                 <p className="mt-1 text-sm text-gray-600">
-                  Chand chhote sawaalon ke zariye jaanein ki aapki shakhsiyat ke
-                  mutabiq kaun sa career raasta aap ke liye behtareen hai.
+                  Answer a few short questions to discover which career path
+                  best matches your personality.
                 </p>
               </div>
               <Link
@@ -155,7 +155,7 @@ export default async function StudentLandingPage() {
             <h2 className="text-lg font-semibold text-gray-900">Tools</h2>
             <div className="h-px flex-1 bg-gradient-to-r from-blue-100 to-transparent" />
           </div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {TOOLS.map((tool) => (
               <Link
                 key={tool.href}
@@ -187,7 +187,7 @@ export default async function StudentLandingPage() {
 const TOOLS = [
   {
     title: 'CV Builder',
-    desc: 'AI se ATS-optimized professional CV banayein.',
+    desc: 'Build an ATS-optimized professional CV with AI.',
     href: '/cv-builder',
     icon: FileText,
     iconBg: 'bg-blue-100',
@@ -195,7 +195,7 @@ const TOOLS = [
   },
   {
     title: 'Chatbot',
-    desc: 'Career aur padhai ke sawaalon ke jawab AI se lein.',
+    desc: 'Get answers to your career and study questions from AI.',
     href: '/student/chat',
     icon: MessageSquare,
     iconBg: 'bg-green-100',
@@ -203,10 +203,18 @@ const TOOLS = [
   },
   {
     title: 'Lessons',
-    desc: 'Apne lesson materials dekhein aur download karein.',
+    desc: 'View and download your lesson materials.',
     href: '/student/lessons',
     icon: BookOpen,
     iconBg: 'bg-purple-100',
     iconColor: 'text-purple-600',
+  },
+  {
+    title: 'AI Lesson Simplifier',
+    desc: 'Paste any topic and get simple, easy-to-understand notes powered by AI.',
+    href: '/student/lesson',
+    icon: Sparkles,
+    iconBg: 'bg-orange-100',
+    iconColor: 'text-orange-600',
   },
 ]

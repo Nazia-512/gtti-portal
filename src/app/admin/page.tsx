@@ -99,7 +99,7 @@ export default async function AdminDashboard() {
             </div>
             <div>
               {recentStudents.length === 0 ? (
-                <p className="text-center py-8" style={{ color: 'var(--text-muted)' }}>Abhi koi student registered nahi hai</p>
+                <p className="text-center py-8" style={{ color: 'var(--text-muted)' }}>No students registered yet</p>
               ) : (
                 recentStudents.map((s, i) => (
                   <div key={i} className="flex items-center gap-4 py-3 border-b last:border-0 last:pb-0" style={{ borderColor: 'var(--border)' }}>
@@ -132,7 +132,7 @@ export default async function AdminDashboard() {
             </div>
             <div className="space-y-3">
               {announcements.length === 0 ? (
-                <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>Koi announcement nahi hai</p>
+                <p className="text-center py-4" style={{ color: 'var(--text-muted)' }}>No announcements yet</p>
               ) : (
                 announcements.map((a, i) => (
                   <div key={i} className="rounded-xl border p-3" style={{ borderColor: 'var(--border)' }}>

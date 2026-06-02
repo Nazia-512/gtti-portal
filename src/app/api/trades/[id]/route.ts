@@ -72,7 +72,7 @@ export async function PUT(
     return NextResponse.json({ success: true, trade })
   } catch (error) {
     console.error('Trade update error:', error)
-    return NextResponse.json({ error: 'Trade update nahi ho saka.' }, { status: 500 })
+    return NextResponse.json({ error: 'Trade update failed.' }, { status: 500 })
   }
 }
 
@@ -104,6 +104,6 @@ export async function DELETE(
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Trade delete error:', error)
-    return NextResponse.json({ error: 'Trade delete nahi ho saka.' }, { status: 500 })
+    return NextResponse.json({ error: 'Trade delete failed.' }, { status: 500 })
   }
 }

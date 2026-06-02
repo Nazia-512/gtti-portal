@@ -52,7 +52,7 @@ export default function ShiningStarsSlider({ stars }: { stars: PublicStar[] }): 
   const loop: PublicStar[] = [...filled, ...filled]
 
   const slider = (
-    <section className="relative z-10 px-6 pt-2 pb-10">
+    <section className="relative z-10 px-6 pt-2 pb-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <div className="star-badge inline-flex mb-3"><Star size={12} /> Our Shining Stars</div>

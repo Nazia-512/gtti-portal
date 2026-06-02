@@ -40,7 +40,7 @@ export default async function ShiningStarsPage() {
         {stars.length === 0 ? (
           <div className="text-center py-20">
             <Star size={48} className="mx-auto mb-4 opacity-20 text-yellow-400" />
-            <p style={{ color: 'var(--text-muted)' }}>Abhi koi Shining Star nahi hai.</p>
+            <p style={{ color: 'var(--text-muted)' }}>No Shining Stars yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

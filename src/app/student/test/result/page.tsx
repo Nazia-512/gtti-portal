@@ -47,7 +47,7 @@ function ResultContent() {
 
   useEffect(() => {
     if (!id) {
-      setError('Koi test id nahi mili.')
+      setError('No test ID found.')
       setLoading(false)
       return
     }
@@ -59,12 +59,12 @@ function ResultContent() {
         const json = await res.json()
         if (!active) return
         if (!res.ok) {
-          setError(json.error || 'Result load nahi ho saka.')
+          setError(json.error || 'Could not load the result.')
         } else {
           setData(json.careerTest)
         }
       } catch {
-        if (active) setError('Kuch ghalat ho gaya! Dobara koshish karein.')
+        if (active) setError('Something went wrong! Please try again.')
       } finally {
         if (active) setLoading(false)
       }
@@ -86,7 +86,7 @@ function ResultContent() {
   if (error || !data) {
     return (
       <div className="flex min-h-screen items-center justify-center px-4 text-center text-red-600">
-        {error || 'Result nahi mila.'}
+        {error || 'Result not found.'}
       </div>
     )
   }

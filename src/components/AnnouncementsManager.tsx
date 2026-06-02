@@ -49,7 +49,7 @@ export default function AnnouncementsManager({ initialAnnouncements }: { initial
   }
 
   const deleteItem = async (a: AnnouncementRow) => {
-    if (!confirm(`Delete "${a.title}"? Yeh action wapas nahi hoga.`)) return
+    if (!confirm(`Delete "${a.title}"? This action cannot be undone.`)) return
     setBusyId(a.id)
     try {
       await fetch(`/api/admin/announcements?id=${a.id}`, { method: 'DELETE' })
@@ -68,7 +68,7 @@ export default function AnnouncementsManager({ initialAnnouncements }: { initial
   const saveEdit = async () => {
     if (!editing || !editForm) return
     if (!editForm.title || !editForm.content) {
-      setError('Title aur content required hai!')
+      setError('Title and content are required!')
       return
     }
     setSaving(true)
@@ -88,7 +88,7 @@ export default function AnnouncementsManager({ initialAnnouncements }: { initial
         await refresh()
       }
     } catch {
-      setError('Kuch ghalat hua!')
+      setError('Something went wrong!')
     } finally {
       setSaving(false)
     }
@@ -102,7 +102,7 @@ export default function AnnouncementsManager({ initialAnnouncements }: { initial
       {items.length === 0 ? (
         <div className="text-center py-20 glass-card rounded-2xl">
           <Bell size={48} className="mx-auto mb-4 opacity-20 text-yellow-400" />
-          <p style={{ color: 'var(--text-muted)' }}>Koi announcement nahi hai</p>
+          <p style={{ color: 'var(--text-muted)' }}>No announcements yet</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -110,7 +110,7 @@ export default function AnnouncementsManager({ initialAnnouncements }: { initial
             const busy = busyId === a.id
             return (
               <div key={a.id} className="glass-card rounded-2xl p-6">
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 mb-2">
                       <span className={`badge ${priorityColor[a.priority] ?? 'badge-cyan'}`}>{a.priority}</span>
@@ -118,11 +118,11 @@ export default function AnnouncementsManager({ initialAnnouncements }: { initial
                         {new Date(a.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <h3 className="font-semibold text-slate-900 mb-2">{a.title}</h3>
-                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{a.content}</p>
+                    <h3 className="font-semibold text-slate-900 mb-2 break-words">{a.title}</h3>
+                    <p className="text-sm break-words" style={{ color: 'var(--text-secondary)' }}>{a.content}</p>
                   </div>
 
-                  <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="flex items-center gap-2 flex-shrink-0 self-end sm:self-auto">
                     <button
                       onClick={() => openEdit(a)}
                       disabled={busy}

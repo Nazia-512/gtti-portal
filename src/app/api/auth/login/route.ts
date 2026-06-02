@@ -15,13 +15,13 @@ export async function POST(req: NextRequest) {
     })
 
     if (!user) {
-      return NextResponse.json({ error: 'Email ya password galat hai!' }, { status: 401 })
+      return NextResponse.json({ error: 'Email or password is incorrect!' }, { status: 401 })
     }
 
     // Password check karo
     const isValid = await bcrypt.compare(password, user.password)
     if (!isValid) {
-      return NextResponse.json({ error: 'Email ya password galat hai!' }, { status: 401 })
+      return NextResponse.json({ error: 'Email or password is incorrect!' }, { status: 401 })
     }
 
     // Approval gate: students jo abhi tak approved nahi (approved === false) login na kar saken.

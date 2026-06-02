@@ -21,7 +21,7 @@ export default function NewShiningStarPage() {
 
   const handleSubmit = async () => {
     if (!form.name || !form.department || !form.batch) {
-      setError('Name, Department aur Batch required hai!')
+      setError('Name, Department and Batch are required!')
       return
     }
     setLoading(true)
@@ -36,11 +36,11 @@ export default function NewShiningStarPage() {
       if (data.error) {
         setError(data.error)
       } else {
-        setSuccess('Shining Star add ho gaya!')
+        setSuccess('Shining Star added successfully!')
         setTimeout(() => window.location.href = '/admin/shining-stars', 2000)
       }
     } catch {
-      setError('Kuch ghalat hua!')
+      setError('Something went wrong!')
     } finally {
       setLoading(false)
     }
@@ -155,7 +155,7 @@ export default function NewShiningStarPage() {
 
           <div>
             <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Success Story</label>
-            <textarea rows={4} placeholder="Student ki success story likho..."
+            <textarea rows={4} placeholder="Write the student's success story..."
               value={form.story} onChange={e => setForm(p => ({ ...p, story: e.target.value }))}
               className="input-field resize-none" />
           </div>

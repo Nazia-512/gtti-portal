@@ -76,8 +76,8 @@ export default function StudentsManager({ initialStudents }: { initialStudents: 
 
   const removeStudent = async (s: StudentRow, isReject: boolean) => {
     const msg = isReject
-      ? `Reject "${s.name}"? Yeh pending registration delete ho jayegi.`
-      : `Delete "${s.name}"? Yeh action wapas nahi hoga.`
+      ? `Reject "${s.name}"? This pending registration will be deleted.`
+      : `Delete "${s.name}"? This action cannot be undone.`
     if (!confirm(msg)) return
     setBusyId(s.studentId)
     try {
@@ -103,7 +103,7 @@ export default function StudentsManager({ initialStudents }: { initialStudents: 
   const saveEdit = async () => {
     if (!editing || !editForm) return
     if (!editForm.name || !editForm.rollNumber || !editForm.department || !editForm.batch) {
-      setError('Name, Roll No, Trade aur Year required hain!')
+      setError('Name, Roll No, Trade and Year are required!')
       return
     }
     setSaving(true)
@@ -123,7 +123,7 @@ export default function StudentsManager({ initialStudents }: { initialStudents: 
         await refresh()
       }
     } catch {
-      setError('Kuch ghalat hua!')
+      setError('Something went wrong!')
     } finally {
       setSaving(false)
     }
@@ -175,7 +175,7 @@ export default function StudentsManager({ initialStudents }: { initialStudents: 
         {students.length === 0 ? (
           <div className="text-center py-16">
             <Users size={48} className="mx-auto mb-4 opacity-20 text-cyan-500" />
-            <p style={{ color: 'var(--text-muted)' }}>Abhi koi student registered nahi hai.</p>
+            <p style={{ color: 'var(--text-muted)' }}>No students registered yet.</p>
           </div>
         ) : (
           <table className="w-full text-sm">
