@@ -1,8 +1,25 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(req: NextRequest) {
   try {
+    // Auth: sirf logged-in student hi CV generate kar sake.
+    // ('auth-token' cookie -> Session lookup -> expiry check) — wahi tareeqa
+    // jo career-test route mein hai. Yeh isliye taake koi seedha API hit
+    // karke limited Groq key waste na kar sake.
+    const token = req.cookies.get('auth-token')?.value
+
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const session = await prisma.session.findUnique({ where: { token } })
+
+    if (!session || session.expiresAt < new Date()) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const { cvData } = await req.json()
 
     const prompt = `You are a professional CV writer. Create a complete CV using ONLY the data below.

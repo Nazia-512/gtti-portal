@@ -62,7 +62,7 @@ export default function StudentProfilePage() {
                 )}
               </div>
 
-              <h2 className="font-display font-bold text-xl text-white mb-1">{PROFILE.name}</h2>
+              <h2 className="font-display font-bold text-xl text-slate-900 mb-1">{PROFILE.name}</h2>
               <p className="text-sm font-mono mb-1" style={{ color: 'var(--cyan)' }}>{PROFILE.rollNumber}</p>
               <p className="text-xs mb-3" style={{ color: 'var(--text-secondary)' }}>{PROFILE.department}</p>
 
@@ -106,7 +106,7 @@ export default function StudentProfilePage() {
             <div className="glass-card rounded-2xl p-6 text-center border border-cyan-500/20">
               <div className="flex items-center justify-center gap-2 mb-3">
                 <QrCode size={18} className="text-cyan-400" />
-                <h3 className="font-semibold text-white text-sm">Verified Profile QR</h3>
+                <h3 className="font-semibold text-slate-900 text-sm">Verified Profile QR</h3>
               </div>
               {/* QR placeholder — replace with react-qr-code in production */}
               <div className="w-32 h-32 mx-auto rounded-xl bg-white p-2 flex items-center justify-center mb-3">
@@ -144,7 +144,7 @@ export default function StudentProfilePage() {
               <div className="space-y-4">
                 {/* Bio */}
                 <div className="glass-card rounded-2xl p-5">
-                  <h3 className="font-semibold text-white mb-3">About</h3>
+                  <h3 className="font-semibold text-slate-900 mb-3">About</h3>
                   <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{PROFILE.bio}</p>
                 </div>
 
@@ -162,7 +162,7 @@ export default function StudentProfilePage() {
 
                 {/* Achievements */}
                 <div className="glass-card rounded-2xl p-5">
-                  <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
+                  <h3 className="font-semibold text-slate-900 mb-3 flex items-center gap-2">
                     <Award size={16} className="text-cyan-400" /> Achievements
                   </h3>
                   <ul className="space-y-2">
@@ -179,7 +179,7 @@ export default function StudentProfilePage() {
 
             {activeTab === 'skills' && (
               <div className="glass-card rounded-2xl p-5">
-                <h3 className="font-semibold text-white mb-4">Technical Skills</h3>
+                <h3 className="font-semibold text-slate-900 mb-4">Technical Skills</h3>
                 <div className="flex flex-wrap gap-2">
                   {PROFILE.skills.map(s => (
                     <span key={s} className="badge badge-cyan py-2 px-3 text-sm">{s}</span>
@@ -197,7 +197,7 @@ export default function StudentProfilePage() {
                         <Briefcase size={16} className="text-cyan-400" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-white mb-1">{p.name}</h3>
+                        <h3 className="font-semibold text-slate-900 mb-1">{p.name}</h3>
                         <p className="text-xs mb-2 font-mono" style={{ color: 'var(--cyan)' }}>{p.tech}</p>
                         <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{p.desc}</p>
                       </div>

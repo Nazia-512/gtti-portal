@@ -40,7 +40,7 @@ export default async function JobsPage() {
             <Briefcase size={24} className="text-green-400" />
           </div>
           <div>
-            <h1 className="font-display font-bold text-3xl text-white">Jobs & Internships</h1>
+            <h1 className="font-display font-bold text-3xl text-slate-900">Jobs & Internships</h1>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">
               Curated opportunities for GTTI graduates
             </p>
@@ -64,7 +64,7 @@ export default async function JobsPage() {
                 <div className="flex items-start justify-between gap-4 flex-wrap">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 flex-wrap mb-1">
-                      <h3 className="font-semibold text-white">{job.title}</h3>
+                      <h3 className="font-semibold text-slate-900">{job.title}</h3>
                       <span className={`badge ${TYPE_COLORS[job.type]}`}>{TYPE_LABELS[job.type]}</span>
                     </div>
                     <p className="text-sm font-medium" style={{ color: 'var(--cyan)' }}>{job.company}</p>
@@ -88,7 +88,7 @@ export default async function JobsPage() {
         {/* Post Job CTA */}
         <div className="mt-12 glass-card rounded-2xl p-6 text-center border border-dashed" style={{ borderColor: 'var(--border)' }}>
           <Clock size={24} className="mx-auto mb-3 text-green-400" />
-          <p className="font-semibold text-white mb-1">Are you an Employer?</p>
+          <p className="font-semibold text-slate-900 mb-1">Are you an Employer?</p>
           <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>
             Post jobs specifically for GTTI graduates.
           </p>

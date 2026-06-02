@@ -32,8 +32,8 @@ const handleRegister = async () => {
     if (data.error) {
       setError(data.error)
     } else {
-      setSuccess('Account ban gaya! Login page pe ja rahe hain...')
-      setTimeout(() => window.location.href = '/auth/login', 2000)
+      setSuccess(data.message || "Your registration is submitted and pending admin approval. You'll be able to log in once approved.")
+      setTimeout(() => window.location.href = '/auth/login', 4000)
     }
   } catch {
     setError('Kuch ghalat hua — dobara try karo!')
@@ -60,7 +60,7 @@ const handleRegister = async () => {
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-600 flex items-center justify-center mx-auto mb-4">
               <UserPlus size={28} className="text-white" />
             </div>
-            <h1 className="font-display font-bold text-2xl text-white">Create Account</h1>
+            <h1 className="font-display font-bold text-2xl text-slate-900">Create Account</h1>
             <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Join GTTI Smart Portal as a Student</p>
           </div>
 

@@ -138,7 +138,7 @@ export default function AdminSliderPage(): React.ReactElement {
               <ImageIcon size={22} className="text-cyan-400" />
             </div>
             <div>
-              <h1 className="font-bold text-2xl text-white">Slider Manager</h1>
+              <h1 className="font-bold text-2xl text-slate-900">Slider Manager</h1>
               <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 {visibleCount} / {slides.length} slides visible hain
               </p>
@@ -162,7 +162,7 @@ export default function AdminSliderPage(): React.ReactElement {
 
         {/* Info */}
         <div className="rounded-xl p-4 mb-6 flex items-center gap-3 text-sm"
-          style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', color: 'rgba(255,255,255,0.7)' }}>
+          style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', color: 'var(--text-secondary)' }}>
           <span className="text-cyan-400 text-lg">ℹ️</span>
           <p>
             Photos upload karein → <strong className="text-cyan-400">Eye icon</strong> se show/hide karein →
@@ -173,8 +173,8 @@ export default function AdminSliderPage(): React.ReactElement {
         {/* Slides grid */}
         {slides.length === 0 ? (
           <div className="glass-card rounded-2xl p-16 text-center">
-            <ImageIcon size={48} className="text-white/20 mx-auto mb-4" />
-            <p className="text-white/40 mb-4">Koi slide nahi hai</p>
+            <ImageIcon size={48} className="text-slate-300 mx-auto mb-4" />
+            <p className="text-slate-500 mb-4">Koi slide nahi hai</p>
             <button type="button" onClick={addSlide} className="btn-primary text-sm flex items-center gap-2 mx-auto">
               <Plus size={15} /> Pehla Slide Add Karein
             </button>
@@ -193,7 +193,7 @@ export default function AdminSliderPage(): React.ReactElement {
                 {/* Slide header */}
                 <div className="px-4 py-2.5 flex items-center justify-between"
                   style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  <span className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
                     Slide {idx + 1}
                   </span>
                   <div className="flex items-center gap-2">
@@ -229,8 +229,8 @@ export default function AdminSliderPage(): React.ReactElement {
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2"
                       style={{ background: 'rgba(255,255,255,0.03)' }}>
-                      <ImageIcon size={28} className="text-white/20" />
-                      <span className="text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                      <ImageIcon size={28} className="text-slate-300" />
+                      <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
                         Click karein photo upload karne ke liye
                       </span>
                     </div>
@@ -252,21 +252,21 @@ export default function AdminSliderPage(): React.ReactElement {
                 {/* Fields */}
                 <div className="p-4 flex flex-col gap-2.5">
                   <div>
-                    <label className="text-xs mb-1 block" style={{ color: 'rgba(255,255,255,0.35)' }}>Heading</label>
+                    <label className="text-xs mb-1 block" style={{ color: 'var(--text-muted)' }}>Heading</label>
                     <input type="text" value={slide.caption}
                       onChange={e => setText(idx, 'caption', e.target.value)}
                       placeholder="Slide heading..."
                       className="w-full text-xs rounded-lg px-3 py-2 outline-none"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)' }}
+                      style={{ background: '#f8faff', border: '1px solid rgba(37,99,235,0.2)', color: 'var(--text-primary)' }}
                     />
                   </div>
                   <div>
-                    <label className="text-xs mb-1 block" style={{ color: 'rgba(255,255,255,0.35)' }}>Sub Text</label>
+                    <label className="text-xs mb-1 block" style={{ color: 'var(--text-muted)' }}>Sub Text</label>
                     <input type="text" value={slide.subtitle}
                       onChange={e => setText(idx, 'subtitle', e.target.value)}
                       placeholder="Sub text..."
                       className="w-full text-xs rounded-lg px-3 py-2 outline-none"
-                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.6)' }}
+                      style={{ background: '#f8faff', border: '1px solid rgba(37,99,235,0.2)', color: 'var(--text-secondary)' }}
                     />
                   </div>
 
@@ -293,7 +293,7 @@ export default function AdminSliderPage(): React.ReactElement {
                 style={{ background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.2)' }}>
                 <Plus size={22} className="text-cyan-400" />
               </div>
-              <span className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <span className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>
                 Naya Slide Add Karein
               </span>
             </div>

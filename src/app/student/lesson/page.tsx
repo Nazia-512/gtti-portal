@@ -90,7 +90,7 @@ Format:
             <BookOpen size={24} className="text-orange-400" />
           </div>
           <div>
-            <h1 className="font-display font-bold text-3xl text-white">AI Lesson Simplifier</h1>
+            <h1 className="font-display font-bold text-3xl text-slate-900">AI Lesson Simplifier</h1>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">
               Paste any topic — Claude AI breaks it down for you
             </p>
@@ -169,7 +169,7 @@ Format:
         {result && (
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-white flex items-center gap-2">
+              <h2 className="font-semibold text-slate-900 flex items-center gap-2">
                 <Sparkles size={16} className="text-orange-400" /> AI Explanation
               </h2>
               <div className="flex gap-2">

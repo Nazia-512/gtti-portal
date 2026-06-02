@@ -216,7 +216,7 @@ lines.forEach((line: string) => {
             <FileText size={24} className="text-cyan-400" />
           </div>
           <div>
-            <h1 className="font-display font-bold text-3xl text-white">AI CV Builder</h1>
+            <h1 className="font-display font-bold text-3xl text-slate-900">AI CV Builder</h1>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">
               Generate an ATS-optimized, professional resume powered by Claude AI
             </p>
@@ -281,7 +281,7 @@ lines.forEach((line: string) => {
 </div>
             {/* Personal Info */}
             <div className="glass-card rounded-2xl p-6">
-              <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-cyan-400 text-xs text-gray-900 font-bold flex items-center justify-center">1</span>
                 Personal Information
               </h2>
@@ -303,7 +303,7 @@ lines.forEach((line: string) => {
 
             {/* Objective */}
             <div className="glass-card rounded-2xl p-6">
-              <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-cyan-400 text-xs text-gray-900 font-bold flex items-center justify-center">2</span>
                 Career Objective <span className="text-xs font-normal badge badge-cyan ml-2">AI will enhance this</span>
               </h2>
@@ -315,7 +315,7 @@ lines.forEach((line: string) => {
 
             {/* Education */}
             <div className="glass-card rounded-2xl p-6">
-              <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-cyan-400 text-xs text-gray-900 font-bold flex items-center justify-center">3</span>
                 Education
               </h2>
@@ -343,7 +343,7 @@ lines.forEach((line: string) => {
 
             {/* Skills */}
             <div className="glass-card rounded-2xl p-6">
-              <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-cyan-400 text-xs text-gray-900 font-bold flex items-center justify-center">4</span>
                 Skills
               </h2>
@@ -367,7 +367,7 @@ lines.forEach((line: string) => {
             </div>
 {/* Experience */}
         <div className="glass-card rounded-2xl p-6">
-          <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+          <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <span className="w-6 h-6 rounded-full bg-cyan-400 text-xs text-gray-900 font-bold flex items-center justify-center">5</span>
             Experience (Optional)
           </h2>
@@ -391,7 +391,7 @@ lines.forEach((line: string) => {
         </div>
             {/* Projects */}
             <div className="glass-card rounded-2xl p-6">
-              <h2 className="font-semibold text-white mb-4 flex items-center gap-2">
+              <h2 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-cyan-400 text-xs text-gray-900 font-bold flex items-center justify-center">5</span>
                 Projects (Optional)
               </h2>
@@ -429,7 +429,7 @@ lines.forEach((line: string) => {
             {generated ? (
               <div>
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="font-semibold text-white flex items-center gap-2">
+                  <h2 className="font-semibold text-slate-900 flex items-center gap-2">
                     <CheckCircle size={18} className="text-green-400" /> Your AI-Generated CV
                   </h2>
                   <div className="flex gap-2">
@@ -448,7 +448,7 @@ lines.forEach((line: string) => {
       <img src={photo} alt="Profile" className="w-24 h-24 rounded-full object-cover border-2 border-cyan-400 flex-shrink-0" />
     )}
     <div>
-      <h2 className="font-bold text-2xl text-white">{cv.name}</h2>
+      <h2 className="font-bold text-2xl text-slate-900">{cv.name}</h2>
       <p className="text-cyan-400 text-sm mt-1">{cv.email} | {cv.phone} | {cv.city}</p>
       {cv.linkedin && <p className="text-sm mt-1" style={{color:'var(--text-secondary)'}}>LinkedIn: {cv.linkedin}</p>}
       {cv.github && <p className="text-sm" style={{color:'var(--text-secondary)'}}>GitHub: {cv.github}</p>}

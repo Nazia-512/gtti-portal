@@ -24,6 +24,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email ya password galat hai!' }, { status: 401 })
     }
 
+    // Approval gate: students jo abhi tak approved nahi (approved === false) login na kar saken.
+    // Admins (aur legacy users jinka approved null hai) normal login karte hain.
+    if (user.role === 'STUDENT' && user.approved === false) {
+      return NextResponse.json(
+        { error: 'Your account is pending admin approval.' },
+        { status: 403 }
+      )
+    }
+
     // Session banao
     const token = crypto.randomUUID()
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days

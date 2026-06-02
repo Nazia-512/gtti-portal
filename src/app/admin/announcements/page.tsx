@@ -1,22 +1,34 @@
 import Link from 'next/link'
-import { PrismaClient } from '@prisma/client'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { prisma } from '@/lib/prisma'
 import { Bell, Plus, ArrowLeft } from 'lucide-react'
+import AnnouncementsManager, { AnnouncementRow } from '@/components/AnnouncementsManager'
 
-export const dynamic = "force-dynamic";
-
-const prisma = new PrismaClient()
-
-const priorityColor: Record<string, string> = {
-  URGENT: 'badge-red',
-  HIGH: 'badge-gold',
-  NORMAL: 'badge-cyan',
-  LOW: 'badge-green',
-}
+export const dynamic = 'force-dynamic'
 
 export default async function AnnouncementsPage() {
-  const announcements = await prisma.announcement.findMany({
-    orderBy: { createdAt: 'desc' }
+  // Admin auth gate (wahi pattern jo manage-students page mein hai)
+  const token = cookies().get('auth-token')?.value
+  if (!token) redirect('/auth/login')
+
+  const session = await prisma.session.findUnique({
+    where: { token },
+    include: { user: true },
   })
+  if (!session || session.expiresAt < new Date() || session.user.role !== 'ADMIN') {
+    redirect('/auth/login')
+  }
+
+  const announcements = await prisma.announcement.findMany({ orderBy: { createdAt: 'desc' } })
+
+  const initialAnnouncements: AnnouncementRow[] = announcements.map((a) => ({
+    id: a.id,
+    title: a.title,
+    content: a.content,
+    priority: a.priority,
+    createdAt: a.createdAt.toISOString(),
+  }))
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
@@ -32,7 +44,7 @@ export default async function AnnouncementsPage() {
               <Bell size={24} className="text-yellow-400" />
             </div>
             <div>
-              <h1 className="font-display font-bold text-3xl text-white">Announcements</h1>
+              <h1 className="font-display font-bold text-3xl text-slate-900">Announcements</h1>
               <p style={{ color: 'var(--text-secondary)' }} className="text-sm">Manage all announcements</p>
             </div>
           </div>
@@ -41,30 +53,7 @@ export default async function AnnouncementsPage() {
           </Link>
         </div>
 
-        <div className="space-y-4">
-          {announcements.length === 0 ? (
-            <div className="text-center py-20 glass-card rounded-2xl">
-              <Bell size={48} className="mx-auto mb-4 opacity-20 text-yellow-400" />
-              <p style={{ color: 'var(--text-muted)' }}>Koi announcement nahi hai</p>
-              <Link href="/admin/announcements/new" className="btn-primary mt-4 text-sm">
-                Pehli Announcement Add Karo
-              </Link>
-            </div>
-          ) : (
-            announcements.map((a) => (
-              <div key={a.id} className="glass-card rounded-2xl p-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className={`badge ${priorityColor[a.priority]}`}>{a.priority}</span>
-                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                    {new Date(a.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-                <h3 className="font-semibold text-white mb-2">{a.title}</h3>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{a.content}</p>
-              </div>
-            ))
-          )}
-        </div>
+        <AnnouncementsManager initialAnnouncements={initialAnnouncements} />
       </div>
     </div>
   )

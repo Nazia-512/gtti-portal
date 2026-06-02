@@ -13,6 +13,9 @@ model User {
   email     String    @unique
   password  String
   role      Role      @default(STUDENT)
+  // Admin approval gate — new student registrations pending (false) tak login block.
+  // Optional taake mojooda documents (admin/legacy users) read par error na dein.
+  approved  Boolean?  @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   student   Student?
@@ -99,6 +102,44 @@ model SliderImage {
   linkLabel String   @default("")
   order     Int      @default(0)
   createdAt DateTime @default(now())
+}
+
+model CareerTest {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId          String   @unique @db.ObjectId
+  studentName        String
+  rollNo             String
+  trade              String
+  institute          String
+  year               String
+  testDate           DateTime @default(now())
+  sectionA           Json
+  sectionB           Json
+  scores             Json
+  recommendedPathway String
+  createdAt          DateTime @default(now())
+}
+
+model Lesson {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  title              String
+  description        String?
+  fileUrl            String
+  fileType           String   // 'pdf' | 'ppt' | 'image' | 'video'
+  fileName           String
+  cloudinaryPublicId String
+  uploadedBy         String   @db.ObjectId
+  createdAt          DateTime @default(now())
+}
+
+// Trade/Course — image-only card (admin Canva mein title+details image mein bake karta hai)
+model Trade {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl           String
+  cloudinaryPublicId String   @default("")
+  alt                String?  // optional — admin ke liye identify karne ka naam / accessibility
+  order              Int      @default(0)
+  createdAt          DateTime @default(now())
 }
 
 enum Role {

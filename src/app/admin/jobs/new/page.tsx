@@ -52,7 +52,7 @@ export default function PostJobPage() {
             <Briefcase size={24} className="text-green-400" />
           </div>
           <div>
-            <h1 className="font-display font-bold text-3xl text-white">Post New Job</h1>
+            <h1 className="font-display font-bold text-3xl text-slate-900">Post New Job</h1>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">Add job opportunity for students</p>
           </div>
         </div>

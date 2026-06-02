@@ -105,7 +105,7 @@ export default function ChatPage() {
                 <MessageSquare size={18} className="text-cyan-400" />
               </div>
               <div>
-                <h1 className="font-semibold text-white text-sm">GTTI AI Assistant</h1>
+                <h1 className="font-semibold text-slate-900 text-sm">GTTI AI Assistant</h1>
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                   <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Powered by Claude AI</span>
@@ -129,7 +129,7 @@ export default function ChatPage() {
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400/10 to-blue-600/10 border border-cyan-400/20 flex items-center justify-center mx-auto mb-4">
                 <Sparkles size={28} className="text-cyan-400" />
               </div>
-              <h2 className="font-display font-semibold text-xl text-white mb-2">Ask Me Anything!</h2>
+              <h2 className="font-display font-semibold text-xl text-slate-900 mb-2">Ask Me Anything!</h2>
               <p className="text-sm mb-8 max-w-sm mx-auto" style={{ color: 'var(--text-secondary)' }}>
                 I'm your AI assistant for career guidance, academics, and skills development.
                 Ask in English or Urdu!

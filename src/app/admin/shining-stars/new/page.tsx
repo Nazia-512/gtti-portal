@@ -59,7 +59,7 @@ export default function NewShiningStarPage() {
             <Star size={24} className="text-yellow-400" />
           </div>
           <div>
-            <h1 className="font-display font-bold text-3xl text-white">Add Shining Star</h1>
+            <h1 className="font-display font-bold text-3xl text-slate-900">Add Shining Star</h1>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">Add a top performer or success story</p>
           </div>
         </div>

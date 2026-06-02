@@ -181,6 +181,32 @@ html, body {
 
 .input-field::placeholder { color: #94a3b8; }
 
+/* ─────────────────────────────────────────────────────────────
+   Form <select> dropdowns — light theme readable options.
+   Bug: kuch forms ke <option> par inline dark background
+   (e.g. #040d2a) laga hua hai, jis se dark text dark bg par
+   invisible ho jata tha. Yahan global, scoped fix:
+   har select + option ko light bg + dark text do.
+   `!important` inline dark backgrounds ko override karta hai,
+   aur selector sirf form select/option tak mehdood hai (baqi
+   intentional dark UI ko touch nahi karta).
+   ───────────────────────────────────────────────────────────── */
+select {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Selected / highlighted option — readable blue highlight */
+select option:checked {
+  background-color: #dbeafe !important; /* light blue */
+  color: #1e3a5f !important;
+}
+
 .star-badge {
   background: linear-gradient(135deg, rgba(37,99,235,0.12), rgba(29,78,216,0.08));
   border: 1px solid rgba(37, 99, 235, 0.35);

@@ -14,6 +14,7 @@ interface Slide {
 interface Announcement {
   id: number
   title: string
+  content: string
   priority: string
 }
 
@@ -68,11 +69,34 @@ export default function HeroSlider(): React.ReactElement {
 
   const slide = slides[current]
 
-  const tickerText = announcements.length > 0
-    ? announcements.map((a: Announcement) =>
-        `${a.priority === 'URGENT' ? '🔴' : a.priority === 'HIGH' ? '🟡' : '🔵'} ${a.title}`
-      ).join('   •••   ')
-    : '🔵 GTTI Smart Portal mein khush amdeed   •••   🟡 Placement ceremony jald aa rahi hai   •••   🔵 AI CV Builder ab available hai'
+  interface TickerItem { icon: string; title: string; details: string }
+
+  const tickerItems: TickerItem[] = announcements.length > 0
+    ? announcements.map((a: Announcement) => ({
+        icon:    a.priority === 'URGENT' ? '🔴' : a.priority === 'HIGH' ? '🟡' : '🔵',
+        title:   a.title,
+        details: a.content,
+      }))
+    : [
+        { icon: '🔵', title: 'GTTI Smart Portal', details: 'Khush amdeed — AI tools, jobs aur shining stars explore karein.' },
+        { icon: '🟡', title: 'Placement Ceremony', details: 'Hamari agli placement ceremony jald aa rahi hai.' },
+        { icon: '🔵', title: 'AI CV Builder', details: 'Ab available hai — apna ATS-optimized CV banayein.' },
+      ]
+
+  // Title (bold) + details ek saath marquee mein — do dafa render taake loop seamless rahe
+  const TickerSequence = (): React.ReactElement => (
+    <>
+      {tickerItems.map((item: TickerItem, i: number) => (
+        <span key={i} className="inline-flex items-center">
+          <span className="mr-1.5">{item.icon}</span>
+          <span className="font-bold text-white">{item.title}</span>
+          <span className="mx-1.5" style={{ color: '#22d3ee' }}>—</span>
+          <span style={{ color: 'rgba(255,255,255,0.75)' }}>{item.details}</span>
+          <span className="mx-5" style={{ color: 'rgba(34,211,238,0.6)' }}>•••</span>
+        </span>
+      ))}
+    </>
+  )
 
   return (
     <div className="w-full">
@@ -82,7 +106,7 @@ export default function HeroSlider(): React.ReactElement {
          ══════════════════════════════════════════════════════ */}
       <div
         className="relative w-full overflow-hidden"
-        style={{ height: '100vh', minHeight: '620px' }}
+        style={{ height: 'min(78vh, 680px)', minHeight: '440px' }}
       >
         {/* Slider background photo */}
         <div
@@ -91,6 +115,7 @@ export default function HeroSlider(): React.ReactElement {
           style={{
             backgroundImage:    slide.image ? `url(${slide.image})` : undefined,
             backgroundSize:     'cover',
+            // Balanced crop — center rakho taake photo top-to-bottom intentional lage
             backgroundPosition: 'center',
           }}
         >
@@ -98,17 +123,16 @@ export default function HeroSlider(): React.ReactElement {
           {!slide.image && (
             <div className={`absolute inset-0 bg-gradient-to-br ${SLIDE_GRADIENTS[current % SLIDE_GRADIENTS.length]}`} />
           )}
-          {/* Dark overlay — text parhne ke liye */}
+          {/* Dark overlay — center (text ke peeche) gehra, edges par halka taake photo dikhe */}
           <div
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(135deg, rgba(2,6,23,0.88) 0%, rgba(2,6,23,0.65) 50%, rgba(2,6,23,0.40) 100%)' }}
+            style={{ background: 'radial-gradient(ellipse at center, rgba(2,6,23,0.78) 0%, rgba(2,6,23,0.55) 55%, rgba(2,6,23,0.28) 100%)' }}
           />
         </div>
 
         {/* ── Hero Text — bilkul center mein ── */}
         <div
-          className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6"
-          style={{ paddingTop: '72px' }} // navbar height
+          className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 py-12"
         >
           {/* Institute badge */}
           <div
@@ -230,7 +254,7 @@ export default function HeroSlider(): React.ReactElement {
         </div>
 
         {/* Placement Gallery label */}
-        <div className="absolute top-20 right-6 z-20">
+        <div className="absolute top-4 right-6 z-20">
           <div
             className="text-xs font-medium px-3 py-1 rounded-full"
             style={{ background: 'rgba(2,6,23,0.6)', color: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.1)' }}
@@ -261,18 +285,19 @@ export default function HeroSlider(): React.ReactElement {
         {/* Scrolling announcements */}
         <div className="flex-1 overflow-hidden">
           <div
-            className="whitespace-nowrap text-xs font-medium"
+            className="inline-flex items-center whitespace-nowrap text-xs font-medium"
             style={{ color: 'rgba(255,255,255,0.8)', animation: 'ticker-scroll 35s linear infinite' }}
           >
-            {tickerText}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{tickerText}
+            <TickerSequence />
+            <TickerSequence />
           </div>
         </div>
       </div>
 
       <style>{`
         @keyframes ticker-scroll {
-          0%   { transform: translateX(100vw); }
-          100% { transform: translateX(-100%); }
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
       `}</style>
     </div>
