@@ -144,16 +144,16 @@ export default function AdminSliderPage(): React.ReactElement {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Link href="/" target="_blank" className="btn-outline text-sm flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <Link href="/" target="_blank" className="btn-outline text-sm flex items-center gap-2 whitespace-nowrap">
               <Eye size={15} /> Live Preview
             </Link>
             <button type="button" onClick={addSlide}
-              className="btn-outline text-sm flex items-center gap-2">
+              className="btn-outline text-sm flex items-center gap-2 whitespace-nowrap">
               <Plus size={15} /> New Slide
             </button>
             <button type="button" onClick={saveAll} disabled={saving}
-              className="btn-primary text-sm flex items-center gap-2 px-6"
+              className="btn-primary text-sm flex items-center gap-2 px-6 whitespace-nowrap"
               style={saved ? { background: 'rgba(34,197,94,0.85)' } : {}}>
               {saved ? <><Check size={15}/> Saved!</> : saving ? <>Saving...</> : <><Save size={15}/> Save All</>}
             </button>
@@ -302,21 +302,21 @@ export default function AdminSliderPage(): React.ReactElement {
       </div>
 
       {/* Fixed bottom save bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4"
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between gap-3 px-4 sm:px-8 py-3 sm:py-4"
         style={{ background: 'rgba(2,6,23,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}>
-        <div>
+        <div className="min-w-0">
           <p className="text-sm font-medium text-white">
             {visibleCount} slide{visibleCount !== 1 ? 's' : ''} visible
             <span className="ml-2 text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
               (total: {slides.length})
             </span>
           </p>
-          <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          <p className="text-xs mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.3)' }}>
             Changes go live on the home page after you save
           </p>
         </div>
         <button type="button" onClick={saveAll} disabled={saving}
-          className="btn-primary flex items-center gap-2 px-10"
+          className="btn-primary flex items-center gap-2 px-6 sm:px-10 flex-shrink-0 whitespace-nowrap"
           style={saved ? { background: 'rgba(34,197,94,0.85)' } : {}}>
           {saved ? <><Check size={16}/> All Saved!</> : saving ? <>Saving...</> : <><Save size={16}/> Save All Changes</>}
         </button>
