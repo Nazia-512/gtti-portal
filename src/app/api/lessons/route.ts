@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     if (!file || !title) {
       return NextResponse.json(
-        { error: 'Title aur file dono zaroori hain.' },
+        { error: 'Title and file are both required.' },
         { status: 400 }
       )
     }
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Lesson upload error:', error)
     return NextResponse.json(
-      { error: 'Lesson upload nahi ho saka.' },
+      { error: 'Lesson upload failed.' },
       { status: 500 }
     )
   }
@@ -95,7 +95,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error('Lesson fetch error:', error)
     return NextResponse.json(
-      { error: 'Lessons load nahi ho sake.' },
+      { error: 'Could not load lessons.' },
       { status: 500 }
     )
   }

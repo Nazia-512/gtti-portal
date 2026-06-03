@@ -56,7 +56,7 @@ export default async function JobsPage() {
           {jobs.length === 0 ? (
             <div className="text-center py-20">
               <Briefcase size={48} className="mx-auto mb-4 opacity-20 text-green-400" />
-              <p style={{ color: 'var(--text-muted)' }}>Abhi koi job available nahi hai.</p>
+              <p style={{ color: 'var(--text-muted)' }}>No jobs are available yet.</p>
             </div>
           ) : (
             jobs.map(job => (

@@ -29,7 +29,7 @@ const handleLogin = async () => {
       }
     }
   } catch {
-    setError('Kuch ghalat hua — dobara try karo!')
+    setError('Something went wrong — please try again!')
   } finally {
     setLoading(false)
   }

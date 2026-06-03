@@ -17,7 +17,7 @@ const [success, setSuccess] = useState('')
 
 const handleRegister = async () => {
   if (!form.name || !form.email || !form.password || !form.rollNumber || !form.department || !form.batch) {
-    setError('Sab required fields fill karo!')
+    setError('Please fill in all required fields!')
     return
   }
   setLoading(true)
@@ -36,7 +36,7 @@ const handleRegister = async () => {
       setTimeout(() => window.location.href = '/auth/login', 4000)
     }
   } catch {
-    setError('Kuch ghalat hua — dobara try karo!')
+    setError('Something went wrong — please try again!')
   } finally {
     setLoading(false)
   }

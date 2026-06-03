@@ -163,17 +163,17 @@ export default function CareerTestPage() {
       !institute.trim() ||
       !year
     ) {
-      setError('Please apni saari details bharein.')
+      setError('Please fill in all your details.')
       return
     }
 
     if (SECTION_A_KEYS.some((key) => !sectionA[key])) {
-      setError('Please Section A ke saare statements ka jawab dein.')
+      setError('Please answer all statements in Section A.')
       return
     }
 
     if (SECTION_B_KEYS.some((key) => !sectionB[key])) {
-      setError('Please Section B ke saare statements ka jawab dein.')
+      setError('Please answer all statements in Section B.')
       return
     }
 
@@ -196,13 +196,13 @@ export default function CareerTestPage() {
       const data = await res.json()
 
       if (!res.ok || !data.success) {
-        setError(data.error || 'Test submit nahi ho saka. Dobara koshish karein.')
+        setError(data.error || 'Could not submit the test. Please try again.')
         return
       }
 
       router.push(`/student/test/result?id=${data.id}`)
     } catch {
-      setError('Kuch ghalat ho gaya! Dobara koshish karein.')
+      setError('Something went wrong! Please try again.')
     } finally {
       setLoading(false)
     }
@@ -216,7 +216,7 @@ export default function CareerTestPage() {
             Career Pathway Test
           </h1>
           <p className="mt-2 text-sm text-gray-600">
-            Apni details bharein aur har statement ka imaandari se jawab dein.
+            Fill in your details and answer each statement honestly.
           </p>
         </div>
 
@@ -236,7 +236,7 @@ export default function CareerTestPage() {
                   value={studentName}
                   onChange={(e) => setStudentName(e.target.value)}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  placeholder="Apna naam likhein"
+                  placeholder="Enter your name"
                 />
               </div>
               <div>
@@ -272,7 +272,7 @@ export default function CareerTestPage() {
                   value={institute}
                   onChange={(e) => setInstitute(e.target.value)}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  placeholder="Institute ka naam"
+                  placeholder="Institute name"
                 />
               </div>
               <div>
@@ -297,7 +297,7 @@ export default function CareerTestPage() {
           <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="mb-1 text-lg font-semibold text-gray-900">Section A</h2>
             <p className="mb-4 text-sm text-gray-600">
-              Har statement ke liye choose karein: Always / Sometimes / Rarely
+              For each statement, choose: Always / Sometimes / Rarely
             </p>
             <div className="space-y-4">
               {SECTION_A_STATEMENTS.map((stmt, idx) => (
@@ -346,7 +346,7 @@ export default function CareerTestPage() {
           <section className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="mb-1 text-lg font-semibold text-gray-900">Section B</h2>
             <p className="mb-4 text-sm text-gray-600">
-              Har statement ke liye choose karein: Yes / No / Not Sure
+              For each statement, choose: Yes / No / Not Sure
             </p>
             <div className="space-y-4">
               {SECTION_B_STATEMENTS.map((stmt, idx) => (

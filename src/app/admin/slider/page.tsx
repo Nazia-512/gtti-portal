@@ -73,7 +73,7 @@ export default function AdminSliderPage(): React.ReactElement {
     try {
       const img = await compress(file)
       setSlides(prev => prev.map((s, i) => i === idx ? { ...s, image: img } : s))
-    } catch { alert('Photo upload nahi hui.') }
+    } catch { alert('Photo upload failed.') }
     finally { setUploading(null) }
   }
 
@@ -113,7 +113,7 @@ export default function AdminSliderPage(): React.ReactElement {
         setTimeout(() => setSaved(false), 3000)
       } else {
         const d = await res.json()
-        alert(d.error || 'Save nahi hua')
+        alert(d.error || 'Save failed')
       }
     } catch { alert('Server error.') }
     finally { setSaving(false) }
@@ -140,20 +140,20 @@ export default function AdminSliderPage(): React.ReactElement {
             <div>
               <h1 className="font-bold text-2xl text-slate-900">Slider Manager</h1>
               <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                {visibleCount} / {slides.length} slides visible hain
+                {visibleCount} / {slides.length} slides visible
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Link href="/" target="_blank" className="btn-outline text-sm flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <Link href="/" target="_blank" className="btn-outline text-sm flex items-center gap-2 whitespace-nowrap">
               <Eye size={15} /> Live Preview
             </Link>
             <button type="button" onClick={addSlide}
-              className="btn-outline text-sm flex items-center gap-2">
-              <Plus size={15} /> Naya Slide
+              className="btn-outline text-sm flex items-center gap-2 whitespace-nowrap">
+              <Plus size={15} /> New Slide
             </button>
             <button type="button" onClick={saveAll} disabled={saving}
-              className="btn-primary text-sm flex items-center gap-2 px-6"
+              className="btn-primary text-sm flex items-center gap-2 px-6 whitespace-nowrap"
               style={saved ? { background: 'rgba(34,197,94,0.85)' } : {}}>
               {saved ? <><Check size={15}/> Saved!</> : saving ? <>Saving...</> : <><Save size={15}/> Save All</>}
             </button>
@@ -165,8 +165,8 @@ export default function AdminSliderPage(): React.ReactElement {
           style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.2)', color: 'var(--text-secondary)' }}>
           <span className="text-cyan-400 text-lg">ℹ️</span>
           <p>
-            Photos upload karein → <strong className="text-cyan-400">Eye icon</strong> se show/hide karein →
-            <strong className="text-cyan-400"> Save All</strong> dabayein
+            Upload photos → use the <strong className="text-cyan-400">Eye icon</strong> to show/hide →
+            press <strong className="text-cyan-400"> Save All</strong>
           </p>
         </div>
 
@@ -174,9 +174,9 @@ export default function AdminSliderPage(): React.ReactElement {
         {slides.length === 0 ? (
           <div className="glass-card rounded-2xl p-16 text-center">
             <ImageIcon size={48} className="text-slate-300 mx-auto mb-4" />
-            <p className="text-slate-500 mb-4">Koi slide nahi hai</p>
+            <p className="text-slate-500 mb-4">No slides yet</p>
             <button type="button" onClick={addSlide} className="btn-primary text-sm flex items-center gap-2 mx-auto">
-              <Plus size={15} /> Pehla Slide Add Karein
+              <Plus size={15} /> Add First Slide
             </button>
           </div>
         ) : (
@@ -231,7 +231,7 @@ export default function AdminSliderPage(): React.ReactElement {
                       style={{ background: 'rgba(255,255,255,0.03)' }}>
                       <ImageIcon size={28} className="text-slate-300" />
                       <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                        Click karein photo upload karne ke liye
+                        Click to upload a photo
                       </span>
                     </div>
                   )}
@@ -243,7 +243,7 @@ export default function AdminSliderPage(): React.ReactElement {
                       <button type="button" onClick={(e) => { e.stopPropagation(); fileRefs.current[idx]?.click() }}
                         className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-white"
                         style={{ background: 'rgba(34,211,238,0.8)' }}>
-                        <Upload size={12} /> Photo Badlein
+                        <Upload size={12} /> Change Photo
                       </button>
                     </div>
                   )}
@@ -274,7 +274,7 @@ export default function AdminSliderPage(): React.ReactElement {
                     className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium mt-1"
                     style={{ background: 'rgba(34,211,238,0.10)', border: '1px solid rgba(34,211,238,0.25)', color: '#67e8f9' }}>
                     <Upload size={12} />
-                    {slide.image ? 'Photo Badlein' : 'Photo Upload Karein'}
+                    {slide.image ? 'Change Photo' : 'Upload Photo'}
                   </button>
 
                   <input type="file" accept="image/*" className="hidden"
@@ -294,7 +294,7 @@ export default function AdminSliderPage(): React.ReactElement {
                 <Plus size={22} className="text-cyan-400" />
               </div>
               <span className="text-sm font-medium" style={{ color: 'var(--text-muted)' }}>
-                Naya Slide Add Karein
+                Add New Slide
               </span>
             </div>
           </div>
@@ -302,23 +302,23 @@ export default function AdminSliderPage(): React.ReactElement {
       </div>
 
       {/* Fixed bottom save bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4"
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between gap-3 px-4 sm:px-8 py-3 sm:py-4"
         style={{ background: 'rgba(2,6,23,0.97)', borderTop: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(12px)' }}>
-        <div>
+        <div className="min-w-0">
           <p className="text-sm font-medium text-white">
             {visibleCount} slide{visibleCount !== 1 ? 's' : ''} visible
             <span className="ml-2 text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
               (total: {slides.length})
             </span>
           </p>
-          <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
-            Changes save karne ke baad home page par live ho jaengi
+          <p className="text-xs mt-0.5 truncate" style={{ color: 'rgba(255,255,255,0.3)' }}>
+            Changes go live on the home page after you save
           </p>
         </div>
         <button type="button" onClick={saveAll} disabled={saving}
-          className="btn-primary flex items-center gap-2 px-10"
+          className="btn-primary flex items-center gap-2 px-6 sm:px-10 flex-shrink-0 whitespace-nowrap"
           style={saved ? { background: 'rgba(34,197,94,0.85)' } : {}}>
-          {saved ? <><Check size={16}/> Sab Save Ho Gaya!</> : saving ? <>Saving...</> : <><Save size={16}/> Save All Changes</>}
+          {saved ? <><Check size={16}/> All Saved!</> : saving ? <>Saving...</> : <><Save size={16}/> Save All Changes</>}
         </button>
       </div>
     </div>

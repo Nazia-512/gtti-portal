@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { Star, ChevronRight, ChevronLeft, Play, Pause, Shield } from 'lucide-react'
+import { Star, ChevronRight, ChevronLeft, Play, Pause } from 'lucide-react'
 
 interface Slide {
   id: number
@@ -78,9 +78,9 @@ export default function HeroSlider(): React.ReactElement {
         details: a.content,
       }))
     : [
-        { icon: '🔵', title: 'GTTI Smart Portal', details: 'Khush amdeed — AI tools, jobs aur shining stars explore karein.' },
-        { icon: '🟡', title: 'Placement Ceremony', details: 'Hamari agli placement ceremony jald aa rahi hai.' },
-        { icon: '🔵', title: 'AI CV Builder', details: 'Ab available hai — apna ATS-optimized CV banayein.' },
+        { icon: '🔵', title: 'GTTI Smart Portal', details: 'Welcome — explore AI tools, jobs, and shining stars.' },
+        { icon: '🟡', title: 'Placement Ceremony', details: 'Our next placement ceremony is coming soon.' },
+        { icon: '🔵', title: 'AI CV Builder', details: 'Now available — build your ATS-optimized CV.' },
       ]
 
   // Title (bold) + details ek saath marquee mein — do dafa render taake loop seamless rahe
@@ -115,7 +115,7 @@ export default function HeroSlider(): React.ReactElement {
           style={{
             backgroundImage:    slide.image ? `url(${slide.image})` : undefined,
             backgroundSize:     'cover',
-            // Balanced crop — center rakho taake photo top-to-bottom intentional lage
+            // Balanced centered crop (wide images chosen to suit this)
             backgroundPosition: 'center',
           }}
         >
@@ -134,31 +134,21 @@ export default function HeroSlider(): React.ReactElement {
         <div
           className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 py-12"
         >
-          {/* Institute badge */}
-          <div
-            className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full"
-            style={{
-              border:      '1px solid rgba(34,211,238,0.35)',
-              background:  'rgba(34,211,238,0.08)',
-              backdropFilter: 'blur(8px)',
-            }}
-          >
-            <Shield size={13} className="text-cyan-400" />
-            <span className="text-xs font-medium" style={{ color: '#67e8f9' }}>
-              Government Technical Training Institute — D.G. Khan
-            </span>
-          </div>
-
-          {/* Main heading */}
+          {/* Main heading — Institute name */}
           <h1
-            className="font-display font-bold leading-tight mb-5 text-white"
-            style={{ fontSize: 'clamp(1.4rem, 3vw, 2.8rem)' }}
+            className="font-display font-bold leading-tight mb-3 text-white max-w-3xl text-balance"
+            style={{ fontSize: 'clamp(1.15rem, 3.2vw, 2.4rem)' }}
           >
-            Empowering{' '}
-            <span style={{ color: '#fbbf24' }}>Future</span>
-            <br />
-            <span style={{ color: '#22d3ee' }}>Tech Leaders</span>
+            Government Technical Training Institute — D.G. Khan
           </h1>
+
+          {/* Subtitle — tagline */}
+          <p
+            className="font-medium leading-snug mb-5"
+            style={{ fontSize: 'clamp(0.95rem, 1.8vw, 1.35rem)', color: 'rgba(255,255,255,0.85)' }}
+          >
+            Empowering Future Tech Leaders
+          </p>
 
           {/* Description */}
           <p

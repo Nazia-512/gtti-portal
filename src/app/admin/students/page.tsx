@@ -63,7 +63,7 @@ export default async function ManageStudentsPage() {
           <div>
             <h1 className="font-display font-bold text-3xl text-slate-900">Manage Students</h1>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              Approve, edit ya remove karein — saare students ek jagah
+              Approve, edit, or remove — all students in one place
             </p>
           </div>
         </div>

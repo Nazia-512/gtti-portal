@@ -64,7 +64,7 @@ export default function JobsManager({ initialJobs }: { initialJobs: JobRow[] }) 
   }
 
   const deleteJob = async (job: JobRow) => {
-    if (!confirm(`Delete "${job.title}"? Yeh action wapas nahi hoga.`)) return
+    if (!confirm(`Delete "${job.title}"? This action cannot be undone.`)) return
     setBusyId(job.id)
     try {
       await fetch(`/api/admin/jobs?id=${job.id}`, { method: 'DELETE' })
@@ -91,7 +91,7 @@ export default function JobsManager({ initialJobs }: { initialJobs: JobRow[] }) 
   const saveEdit = async () => {
     if (!editing || !editForm) return
     if (!editForm.title || !editForm.company || !editForm.location || !editForm.description) {
-      setError('Title, Company, Location aur Description required hain!')
+      setError('Title, Company, Location and Description are required!')
       return
     }
     setSaving(true)
@@ -111,7 +111,7 @@ export default function JobsManager({ initialJobs }: { initialJobs: JobRow[] }) 
         await refresh()
       }
     } catch {
-      setError('Kuch ghalat hua!')
+      setError('Something went wrong!')
     } finally {
       setSaving(false)
     }
@@ -125,7 +125,7 @@ export default function JobsManager({ initialJobs }: { initialJobs: JobRow[] }) 
       {jobs.length === 0 ? (
         <div className="text-center py-20 glass-card rounded-2xl">
           <Briefcase size={48} className="mx-auto mb-4 opacity-20 text-green-400" />
-          <p style={{ color: 'var(--text-muted)' }}>Koi job post nahi hai</p>
+          <p style={{ color: 'var(--text-muted)' }}>No jobs posted yet</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -153,7 +153,7 @@ export default function JobsManager({ initialJobs }: { initialJobs: JobRow[] }) 
                     <p className="text-sm line-clamp-2" style={{ color: 'var(--text-secondary)' }}>{job.description}</p>
                   </div>
 
-                  <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="flex items-center gap-2 flex-shrink-0 self-end sm:self-auto">
                     <button
                       onClick={() => openEdit(job)}
                       disabled={busy}

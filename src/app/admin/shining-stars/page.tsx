@@ -64,7 +64,7 @@ export default function ShiningStarsAdminPage() {
   useEffect(() => { loadStars() }, [])
 
   const deleteStar = async (id: string) => {
-    if (!confirm('Delete karna chahte hain?')) return
+    if (!confirm('Are you sure you want to delete this?')) return
     await fetch(`/api/admin/shining-stars/list?id=${id}`, { method: 'DELETE' })
     setShiningStars((prev) => prev.filter((s) => s.id !== id))
     setSelected(null)
@@ -90,7 +90,7 @@ export default function ShiningStarsAdminPage() {
   const saveEdit = async () => {
     if (!editing || !editForm) return
     if (!editForm.name || !editForm.department || !editForm.batch) {
-      setError('Name, Department aur Batch required hai!')
+      setError('Name, Department and Batch are required!')
       return
     }
     setSaving(true)
@@ -115,7 +115,7 @@ export default function ShiningStarsAdminPage() {
         loadStars()
       }
     } catch {
-      setError('Kuch ghalat hua!')
+      setError('Something went wrong!')
     } finally {
       setSaving(false)
     }
@@ -132,8 +132,8 @@ export default function ShiningStarsAdminPage() {
           <ArrowLeft size={16} /> Back to Dashboard
         </Link>
 
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+          <div className="flex items-center gap-4 min-w-0">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400/20 to-amber-600/20 border border-yellow-400/30 flex items-center justify-center">
               <Star size={24} className="text-yellow-400" />
             </div>
@@ -152,9 +152,9 @@ export default function ShiningStarsAdminPage() {
         ) : shiningStars.length === 0 ? (
           <div className="text-center py-20 glass-card rounded-2xl">
             <Star size={48} className="mx-auto mb-4 opacity-20 text-yellow-400" />
-            <p style={{ color: 'var(--text-muted)' }}>Koi Shining Star nahi hai</p>
+            <p style={{ color: 'var(--text-muted)' }}>No Shining Stars yet</p>
             <Link href="/admin/shining-stars/new" className="btn-gold mt-4 text-sm inline-flex items-center gap-2">
-              <Plus size={15} /> Pehla Shining Star Add Karo
+              <Plus size={15} /> Add First Shining Star
             </Link>
           </div>
         ) : (
@@ -163,7 +163,7 @@ export default function ShiningStarsAdminPage() {
               <div
                 key={star.id}
                 onClick={() => setSelected(star)}
-                className="glass-card rounded-2xl p-6 flex items-center justify-between gap-4 cursor-pointer transition-all hover:border-yellow-400/40 hover:-translate-y-0.5"
+                className="glass-card rounded-2xl p-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between cursor-pointer transition-all hover:border-yellow-400/40 hover:-translate-y-0.5"
               >
                 <div className="flex items-center gap-4 min-w-0">
                   {star.photo ? (
@@ -184,7 +184,7 @@ export default function ShiningStarsAdminPage() {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex items-center gap-2 flex-shrink-0 self-end sm:self-auto">
                   <button
                     onClick={(e) => { e.stopPropagation(); openEdit(star) }}
                     className="btn-outline text-sm flex items-center gap-2"

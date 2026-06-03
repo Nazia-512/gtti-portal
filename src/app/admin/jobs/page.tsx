@@ -43,14 +43,14 @@ export default async function ManageJobsPage() {
           <ArrowLeft size={16} /> Back to Dashboard
         </Link>
 
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+          <div className="flex items-center gap-4 min-w-0">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400/20 to-emerald-600/20 border border-green-400/30 flex items-center justify-center">
               <Briefcase size={24} className="text-green-400" />
             </div>
             <div>
               <h1 className="font-display font-bold text-3xl text-slate-900">Manage Jobs</h1>
-              <p style={{ color: 'var(--text-secondary)' }} className="text-sm">Edit ya remove karein — saari posted jobs</p>
+              <p style={{ color: 'var(--text-secondary)' }} className="text-sm">Edit or remove — all posted jobs</p>
             </div>
           </div>
           <Link href="/admin/jobs/new" className="btn-primary text-sm flex items-center gap-2">

@@ -39,7 +39,7 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
     setError('')
 
     if (!title.trim() || !file) {
-      setError('Title aur file dono zaroori hain.')
+      setError('Title and file are both required.')
       return
     }
 
@@ -54,7 +54,7 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
       const data = await res.json()
 
       if (!res.ok || !data.success) {
-        setError(data.error || 'Upload nahi ho saka.')
+        setError(data.error || 'Upload failed.')
         return
       }
 
@@ -79,14 +79,14 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
       const input = document.getElementById('lesson-file') as HTMLInputElement | null
       if (input) input.value = ''
     } catch {
-      setError('Kuch ghalat ho gaya. Dobara koshish karein.')
+      setError('Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Yeh lesson delete karna chahte hain?')) return
+    if (!confirm('Are you sure you want to delete this lesson?')) return
     setDeletingId(id)
     try {
       const res = await fetch(`/api/lessons/${id}`, { method: 'DELETE' })
@@ -94,7 +94,7 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
         setLessons((prev) => prev.filter((l) => l.id !== id))
       } else {
         const data = await res.json()
-        alert(data.error || 'Delete nahi ho saka.')
+        alert(data.error || 'Delete failed.')
       }
     } catch {
       alert('Server error.')
@@ -122,7 +122,7 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
           <div>
             <h1 className="font-display font-bold text-3xl text-slate-900">Manage Lessons</h1>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              Lesson files (PDF, PPT, image, video) upload karein
+              Upload lesson files (PDF, PPT, image, video)
             </p>
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Lesson ka title"
+              placeholder="Lesson title"
               className="input-field"
             />
           </div>
@@ -150,7 +150,7 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              placeholder="Mukhtasar tafseel..."
+              placeholder="Short description..."
               className="input-field resize-none"
             />
           </div>
@@ -189,14 +189,14 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
         {lessons.length === 0 ? (
           <div className="text-center py-16 glass-card rounded-2xl">
             <BookOpen size={48} className="mx-auto mb-4 opacity-20 text-blue-500" />
-            <p style={{ color: 'var(--text-muted)' }}>Abhi koi lesson upload nahi hua.</p>
+            <p style={{ color: 'var(--text-muted)' }}>No lessons uploaded yet.</p>
           </div>
         ) : (
           <div className="space-y-3">
             {lessons.map((l) => (
               <div
                 key={l.id}
-                className="glass-card rounded-2xl p-5 flex items-center justify-between gap-4"
+                className="glass-card rounded-2xl p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="w-10 h-10 rounded-xl bg-slate-500/10 flex items-center justify-center flex-shrink-0">
@@ -214,7 +214,7 @@ export default function LessonsManager({ initialLessons }: { initialLessons: Les
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex items-center gap-2 flex-shrink-0 self-end sm:self-auto">
                   <a
                     href={l.fileUrl}
                     target="_blank"

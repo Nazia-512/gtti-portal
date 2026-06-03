@@ -12,13 +12,13 @@ export async function POST(req: NextRequest) {
     // Check karo email already exist karta hai?
     const existing = await prisma.user.findUnique({ where: { email } })
     if (existing) {
-      return NextResponse.json({ error: 'Yeh email already registered hai!' }, { status: 400 })
+      return NextResponse.json({ error: 'This email is already registered!' }, { status: 400 })
     }
 
     // Check karo roll number already exist karta hai?
     const existingRoll = await prisma.student.findUnique({ where: { rollNumber } })
     if (existingRoll) {
-      return NextResponse.json({ error: 'Yeh roll number already registered hai!' }, { status: 400 })
+      return NextResponse.json({ error: 'This roll number is already registered!' }, { status: 400 })
     }
 
     // Password hash karo

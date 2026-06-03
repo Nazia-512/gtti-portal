@@ -23,7 +23,7 @@ export async function PATCH(req: NextRequest) {
 
     const { userId, approved } = await req.json()
     if (!userId || typeof approved !== 'boolean') {
-      return NextResponse.json({ error: 'userId aur approved required hai' }, { status: 400 })
+      return NextResponse.json({ error: 'userId and approved are required' }, { status: 400 })
     }
 
     await prisma.user.update({ where: { id: userId }, data: { approved } })
@@ -40,7 +40,7 @@ export async function PUT(req: NextRequest) {
     if (!admin) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { studentId, userId, name, rollNumber, department, batch, phone } = await req.json()
-    if (!studentId) return NextResponse.json({ error: 'studentId required hai' }, { status: 400 })
+    if (!studentId) return NextResponse.json({ error: 'studentId is required' }, { status: 400 })
 
     await prisma.student.update({
       where: { id: studentId },
@@ -72,7 +72,7 @@ export async function DELETE(req: NextRequest) {
     const { searchParams } = new URL(req.url)
     const studentId = searchParams.get('studentId')
     const userId = searchParams.get('userId')
-    if (!studentId) return NextResponse.json({ error: 'studentId required hai' }, { status: 400 })
+    if (!studentId) return NextResponse.json({ error: 'studentId is required' }, { status: 400 })
 
     if (userId) await prisma.session.deleteMany({ where: { userId } })
     await prisma.student.delete({ where: { id: studentId } })

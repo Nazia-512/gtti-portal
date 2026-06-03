@@ -38,7 +38,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
     e.preventDefault()
     setError('')
     if (!file) {
-      setError('Image select karein.')
+      setError('Please select an image.')
       return
     }
     setLoading(true)
@@ -51,7 +51,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
       const res = await fetch('/api/trades', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok || !data.success) {
-        setError(data.error || 'Upload nahi ho saka.')
+        setError(data.error || 'Upload failed.')
         return
       }
       setFile(null)
@@ -61,14 +61,14 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
       if (input) input.value = ''
       await refresh()
     } catch {
-      setError('Kuch ghalat ho gaya. Dobara koshish karein.')
+      setError('Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Yeh trade delete karna chahte hain?')) return
+    if (!confirm('Are you sure you want to delete this trade?')) return
     setBusyId(id)
     try {
       const res = await fetch(`/api/trades/${id}`, { method: 'DELETE' })
@@ -76,7 +76,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
         setTrades((prev) => prev.filter((t) => t.id !== id))
       } else {
         const data = await res.json()
-        alert(data.error || 'Delete nahi ho saka.')
+        alert(data.error || 'Delete failed.')
       }
     } catch {
       alert('Server error.')
@@ -95,7 +95,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
         await refresh()
       } else {
         const data = await res.json()
-        alert(data.error || 'Replace nahi ho saka.')
+        alert(data.error || 'Replace failed.')
       }
     } catch {
       alert('Server error.')
@@ -115,7 +115,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
         await refresh()
       } else {
         const data = await res.json()
-        alert(data.error || 'Order update nahi ho saka.')
+        alert(data.error || 'Order update failed.')
       }
     } finally {
       setBusyId(null)
@@ -138,7 +138,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
           <div>
             <h1 className="font-display font-bold text-3xl text-slate-900">Manage Trades</h1>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              Sirf image — Canva card (title + details baked) upload karein
+              Image only — upload a Canva card (title + details baked in)
             </p>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
             </div>
           </div>
           <div>
-            <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Name / Alt (optional — identify karne ke liye)</label>
+            <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Name / Alt (optional — for identification)</label>
             <input type="text" value={alt} onChange={(e) => setAlt(e.target.value)} placeholder="e.g. Computer Technology" className="input-field" />
           </div>
 
@@ -176,7 +176,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
         {trades.length === 0 ? (
           <div className="text-center py-16 glass-card rounded-2xl">
             <Images size={48} className="mx-auto mb-4 opacity-20 text-rose-500" />
-            <p style={{ color: 'var(--text-muted)' }}>Abhi koi trade upload nahi hua.</p>
+            <p style={{ color: 'var(--text-muted)' }}>No trades uploaded yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -197,7 +197,7 @@ export default function TradesManager({ initialTrades }: { initialTrades: TradeR
                       className="w-14 text-xs rounded-lg border px-2 py-1"
                       style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}
                       aria-label="Order"
-                      title="Order — change karke bahar click karein"
+                      title="Order — change it, then click outside"
                     />
                   </div>
                 </div>

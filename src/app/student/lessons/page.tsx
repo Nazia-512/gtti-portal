@@ -51,14 +51,14 @@ export default async function StudentLessonsPage() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Lessons</h1>
           <p className="mt-1 text-sm text-gray-600">
-            Apne lesson materials yahan se dekhein aur download karein.
+            View and download your lesson materials here.
           </p>
         </div>
 
         {lessons.length === 0 ? (
           <div className="rounded-2xl border border-gray-200 bg-white p-12 text-center shadow-sm">
             <BookOpen className="mx-auto mb-4 h-12 w-12 text-gray-300" />
-            <p className="text-sm text-gray-500">Abhi koi lesson available nahi hai.</p>
+            <p className="text-sm text-gray-500">No lessons are available yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

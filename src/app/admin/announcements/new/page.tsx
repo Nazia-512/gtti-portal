@@ -11,7 +11,7 @@ export default function NewAnnouncementPage() {
 
   const handleSubmit = async () => {
     if (!form.title || !form.content) {
-      setError('Title aur content required hai!')
+      setError('Title and content are required!')
       return
     }
     setLoading(true)
@@ -26,11 +26,11 @@ export default function NewAnnouncementPage() {
       if (data.error) {
         setError(data.error)
       } else {
-        setSuccess('Announcement post ho gayi!')
+        setSuccess('Announcement posted successfully!')
         setTimeout(() => window.location.href = '/admin', 2000)
       }
     } catch {
-      setError('Kuch ghalat hua!')
+      setError('Something went wrong!')
     } finally {
       setLoading(false)
     }

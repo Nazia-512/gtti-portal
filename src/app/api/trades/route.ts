@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const orderRaw = formData.get('order') as string | null
 
     if (!file) {
-      return NextResponse.json({ error: 'Image file zaroori hai.' }, { status: 400 })
+      return NextResponse.json({ error: 'An image file is required.' }, { status: 400 })
     }
 
     const bytes = await file.arrayBuffer()
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, trade }, { status: 201 })
   } catch (error) {
     console.error('Trade upload error:', error)
-    return NextResponse.json({ error: 'Trade upload nahi ho saka.' }, { status: 500 })
+    return NextResponse.json({ error: 'Trade upload failed.' }, { status: 500 })
   }
 }
 

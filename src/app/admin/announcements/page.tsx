@@ -38,8 +38,8 @@ export default async function AnnouncementsPage() {
           <ArrowLeft size={16} /> Back to Dashboard
         </Link>
 
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+          <div className="flex items-center gap-4 min-w-0">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400/20 to-amber-600/20 border border-yellow-400/30 flex items-center justify-center">
               <Bell size={24} className="text-yellow-400" />
             </div>

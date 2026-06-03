@@ -14,7 +14,7 @@ export default function PostJobPage() {
 
   const handleSubmit = async () => {
     if (!form.title || !form.company || !form.location || !form.description) {
-      setError('Sab required fields fill karo!')
+      setError('Please fill in all required fields!')
       return
     }
     setLoading(true)
@@ -29,11 +29,11 @@ export default function PostJobPage() {
       if (data.error) {
         setError(data.error)
       } else {
-        setSuccess('Job post ho gayi!')
+        setSuccess('Job posted successfully!')
         setTimeout(() => window.location.href = '/admin', 2000)
       }
     } catch {
-      setError('Kuch ghalat hua!')
+      setError('Something went wrong!')
     } finally {
       setLoading(false)
     }
